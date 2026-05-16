@@ -11,8 +11,8 @@ import java.util.ArrayList;
  *
  * @author edangulo
  */
-public class Patient extends User {
-    
+public class Patient extends User implements ISchedulable {
+
     private String email;
     private LocalDate birthdate;
     private boolean gender;
@@ -20,6 +20,56 @@ public class Patient extends User {
     private String address;
     private ArrayList<Appointment> appointments;
     private Hospitalization hospitalization;
+
+    public Patient(long id, String username, String firstname, String lastname,
+            String password, String email, LocalDate birthdate,
+            boolean gender, long phone, String address) {
+        super(id, username, firstname, lastname, password);
+        this.email = email;
+        this.birthdate = birthdate;
+        this.gender = gender;
+        this.phone = phone;
+        this.address = address;
+        this.appointments = new ArrayList<>();
+    }
+
+    @Override
+    public ArrayList<Appointment> getAppointments() {
+        return appointments;
+    }
+
+    @Override
+    public void addAppointment(Appointment a) {
+        appointments.add(a);
+    }
+
+    public Hospitalization getHospitalization() {
+        return hospitalization;
+    }
+
+    public void setHospitalization(Hospitalization h) {
+        this.hospitalization = h;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public LocalDate getBirthdate() {
+        return birthdate;
+    }
+
+    public boolean getGender() {
+        return gender;
+    }
+
+    public long getPhone() {
+        return phone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
 
     public void setEmail(String email) {
         this.email = email;
@@ -40,27 +90,4 @@ public class Patient extends User {
     public void setAddress(String address) {
         this.address = address;
     }
-
-    public void setHospitalization(Hospitalization hospitalization) {
-        this.hospitalization = hospitalization;
-    }
-
-    public ArrayList<Appointment> getAppointments() {
-        return appointments;
-    }
-    
-    public void addAppointment(Appointment a) {
-        this.appointments.add(a);
-    }
-
-    public Patient(long id, String username, String firstname, String lastname, String password, String email, LocalDate birthdate, boolean gender, long phone, String address) {
-        super(id, username, firstname, lastname, password);
-        this.email = email;
-        this.birthdate = birthdate;
-        this.gender = gender;
-        this.phone = phone;
-        this.address = address;
-        this.appointments = new ArrayList<>();
-    }
-    
 }
