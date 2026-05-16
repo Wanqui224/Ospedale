@@ -12,9 +12,9 @@ import java.util.HashMap;
  */
 public class Response {
 
-    private String message;
-    private int status;
-    private HashMap<String, Object> data;
+    private final String message;
+    private final int status;
+    private final HashMap<String, Object> data;
 
     public Response(String message, int status) {
         this.message = message;
@@ -38,9 +38,5 @@ public class Response {
 
     public HashMap<String, Object> getData() {
         return data;
-    }
-
-    public boolean isSuccess() {
-        return status >= 200 && status < 300;
     }
 }

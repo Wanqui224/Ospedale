@@ -11,11 +11,11 @@ import packagee.core.models.storage.IHospitalStorage;
  *
  * @author Wanki
  */
-public class AuthController {
+public class AppointmentController {
 
     private final IHospitalStorage storage;
 
-    public AuthController(IHospitalStorage storage) {
+    public AppointmentController(IHospitalStorage storage) {
         this.storage = storage;
     }
 }
