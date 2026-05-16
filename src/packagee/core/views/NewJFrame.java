@@ -2,14 +2,20 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package packagee;
+package packagee.core.views;
 
+import packagee.core.models.Administrator;
 import com.formdev.flatlaf.FlatDarkLaf;
 import java.awt.Color;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 import javax.swing.UIManager;
+import packagee.core.models.Appointment;
+import packagee.core.models.Doctor;
+import packagee.core.models.Hospitalization;
+import packagee.core.models.Patient;
+import packagee.core.models.User;
 
 /**
  *
@@ -41,11 +47,11 @@ public class NewJFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        panelRound1 = new packagee.PanelRound();
-        panelRound2 = new packagee.PanelRound();
+        panelRound1 = new packagee.core.models.PanelRound();
+        panelRound2 = new packagee.core.models.PanelRound();
         jButton1 = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
-        panelRound3 = new packagee.PanelRound();
+        panelRound3 = new packagee.core.models.PanelRound();
         jLabel1 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -516,8 +522,8 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
-    private packagee.PanelRound panelRound1;
-    private packagee.PanelRound panelRound2;
-    private packagee.PanelRound panelRound3;
+    private packagee.core.models.PanelRound panelRound1;
+    private packagee.core.models.PanelRound panelRound2;
+    private packagee.core.models.PanelRound panelRound3;
     // End of variables declaration//GEN-END:variables
 }
