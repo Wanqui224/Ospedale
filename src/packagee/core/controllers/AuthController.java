@@ -25,7 +25,7 @@ public class AuthController {
 
     public Response login(String username, String password) {
         try {
-            // Validar — delegado a UserValidator (S)
+
             if (!UserValidator.isValidUsername(username)) {
                 return new Response("Username is required", Status.BAD_REQUEST);
             }
@@ -33,18 +33,15 @@ public class AuthController {
                 return new Response("Password is required", Status.BAD_REQUEST);
             }
 
-            // Buscar usuario
             User user = storage.getUserByUsername(username.trim());
             if (user == null) {
                 return new Response("User not found", Status.NOT_FOUND);
             }
 
-            // Verificar password
             if (!user.getPassword().equals(password)) {
                 return new Response("Incorrect password", Status.BAD_REQUEST);
             }
 
-            // Serializar — delegado a UserSerializer (S)
             return new Response(
                     "Login successful",
                     Status.OK,

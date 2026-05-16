@@ -6,10 +6,9 @@ package packagee.core.controllers.utils;
 
 import packagee.core.controllers.AppointmentController;
 import packagee.core.controllers.AuthController;
-import packagee.core.controllers.DoctorController;
 import packagee.core.controllers.HospitalizationController;
+import packagee.core.controllers.IDoctorController;
 import packagee.core.controllers.IPatientController;
-import packagee.core.controllers.PatientController;
 
 /**
  *
@@ -18,15 +17,15 @@ import packagee.core.controllers.PatientController;
 public class ControllerContainer {
 
     private final AuthController authController;
-    private final IPatientController patientController;  // ← interfaz
-    private final DoctorController doctorController;
+    private final IPatientController patientController;
+    private final IDoctorController doctorController;
     private final AppointmentController appointmentController;
     private final HospitalizationController hospitalizationController;
 
     public ControllerContainer(
             AuthController authController,
-            IPatientController patientController, // ← interfaz
-            DoctorController doctorController,
+            IPatientController patientController,
+            IDoctorController doctorController,
             AppointmentController appointmentController,
             HospitalizationController hospitalizationController
     ) {
@@ -45,7 +44,7 @@ public class ControllerContainer {
         return patientController;
     }
 
-    public DoctorController getDoctorController() {
+    public IDoctorController getDoctorController() {
         return doctorController;
     }
 

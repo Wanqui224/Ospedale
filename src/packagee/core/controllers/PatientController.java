@@ -27,7 +27,7 @@ public class PatientController implements IPatientController {
         this.storage = storage;
     }
 
-    // ─── Validación centralizada (DRY + S) ───────────────────────────────────
+    
     private Response validatePatientData(
             String username, String firstname, String lastname,
             String password, String confirmPassword, String email,
@@ -66,7 +66,7 @@ public class PatientController implements IPatientController {
         return null;
     }
 
-    // ─── Register ─────────────────────────────────────────────────────────────
+    
     @Override
     public Response registerPatient(
             String id, String username, String firstname, String lastname,
@@ -87,7 +87,7 @@ public class PatientController implements IPatientController {
                 return new Response("A user with that username already exists", Status.BAD_REQUEST);
             }
 
-            // Validar datos comunes
+           
             Response validation = validatePatientData(
                     username, firstname, lastname, password,
                     confirmPassword, email, birthdate, gender, phone, address
@@ -96,7 +96,7 @@ public class PatientController implements IPatientController {
                 return validation;
             }
 
-            // Crear y guardar
+            
             Patient patient = new Patient(
                     idLong, username.trim(), firstname.trim(), lastname.trim(),
                     password, email.trim(), LocalDate.parse(birthdate.trim()),
@@ -112,7 +112,7 @@ public class PatientController implements IPatientController {
         }
     }
 
-    // ─── Update ───────────────────────────────────────────────────────────────
+   
     @Override
     public Response updatePatient(
             String id, String username, String firstname, String lastname,
@@ -134,13 +134,13 @@ public class PatientController implements IPatientController {
                 return new Response("User is not a patient", Status.BAD_REQUEST);
             }
 
-            // Verificar unicidad de username solo si cambió
+            
             User existingUsername = storage.getUserByUsername(username.trim());
             if (existingUsername != null && existingUsername.getId() != idLong) {
                 return new Response("A user with that username already exists", Status.BAD_REQUEST);
             }
 
-            // Validar datos comunes
+            
             Response validation = validatePatientData(
                     username, firstname, lastname, password,
                     confirmPassword, email, birthdate, gender, phone, address
@@ -149,7 +149,7 @@ public class PatientController implements IPatientController {
                 return validation;
             }
 
-            // Actualizar
+            
             Patient patient = (Patient) user;
             patient.setUsername(username.trim());
             patient.setFirstname(firstname.trim());
@@ -168,7 +168,7 @@ public class PatientController implements IPatientController {
         }
     }
 
-    // ─── Get ──────────────────────────────────────────────────────────────────
+    
     @Override
     public Response getPatient(String id) {
         try {
