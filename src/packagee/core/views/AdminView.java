@@ -4,37 +4,40 @@
  */
 package packagee.core.views;
 
-import packagee.core.views.PatientView;
-import packagee.core.models.Hospitalization;
-import packagee.core.models.User;
-import packagee.core.models.Patient;
-import packagee.core.models.Appointment;
-import packagee.core.models.Doctor;
-import packagee.core.views.LoginView;
-import packagee.core.models.enums.Specialty;
 import java.awt.Color;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import packagee.core.controllers.utils.ControllerContainer;
+import packagee.core.controllers.utils.Response;
+import packagee.core.controllers.utils.Status;
+import packagee.core.models.Appointment;
+import packagee.core.models.Hospitalization;
+import packagee.core.models.User;
 
-/**
- *
- * @author jjlora
- * @author edangulo
- */
 public class AdminView extends javax.swing.JFrame {
 
+    // ── CAMPOS PRIVADOS ───────────────────────────────────────────────
     private int x, y;
-    private ArrayList<User> users;
-    private ArrayList<Appointment>appointments;
-    private ArrayList<Hospitalization>hospitalizations;
-    private User user;
-    public AdminView(User user, ArrayList<User>users,ArrayList<Hospitalization> hospitalizations, ArrayList<Appointment> appointments) {
+    private final ControllerContainer controllers;
+
+    // ── CONSTRUCTOR ───────────────────────────────────────────────────
+    public AdminView(ControllerContainer controllers) {
         initComponents();
-        this.user = user;
-        this.users = users;
-        this.hospitalizations = hospitalizations;
-        this.appointments = appointments;
+        this.controllers = controllers;
         this.setBackground(new Color(0, 0, 0, 0));
         this.setLocationRelativeTo(null);
+
+        // Día 4-5: cargar ComboBoxes automáticamente al abrir
+        loadDoctorComboBox();
+        loadPatientComboBox();
+    }
+
+    public AdminView(ControllerContainer controllers, User user) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public AdminView(User user, User temp, ArrayList<User> users, ArrayList<Hospitalization> hospitalizations, ArrayList<Appointment> appointments) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     /**
@@ -418,51 +421,122 @@ public class AdminView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCloseActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        String firstname = fieldFirstname.getText();
-        String lastname = fielLastname.getText();
-        long id = Long.parseLong(fieldID.getText());
+        String id = fieldID.getText();
+        String first = fieldFirstname.getText();
+        String last = fielLastname.getText();           // fielLastname (sin 'd')
         String spec = cboxSpecialty.getItemAt(cboxSpecialty.getSelectedIndex());
-        String licenseNumber = fielLicenseNumber.getText();
-        String assignedOffice = fieldAssignedOffice.getText();
+        String license = fielLicenseNumber.getText();     // fielLicenseNumber (sin 'd')
+        String office = fieldAssignedOffice.getText();
         String username = fieldUser.getText();
         String password = fieldPassword.getText();
-        String comPassword = fieldPasswordConfirmation.getText();
-        Specialty specialty = Specialty.valueOf(spec.replaceAll(" &", "").replaceAll(" ", "_"));
-        if (password.equals(comPassword)) {
-            users.add(new Doctor(id, username, firstname, lastname, password, specialty, licenseNumber, assignedOffice));
+        String confirm = fieldPasswordConfirmation.getText();
+
+        Response response = controllers.getDoctorController().registerDoctor(
+                id, username, first, last,
+                password, confirm,
+                spec, license, office
+        );
+
+        if (response.getStatus() == Status.CREATED || response.getStatus() == Status.OK) {
+            showMessage("Doctor registered successfully!", true);
+            clearDoctorFields();
+            loadDoctorComboBox(); // actualizar ComboBox tras agregar
+        } else {
+            showMessage(response.getMessage(), false);
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnDoctorViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDoctorViewActionPerformed
-        long idDoctor = Long.parseLong(CboxDoctor.getItemAt(CboxDoctor.getSelectedIndex()));
-        Doctor temp = null;
-        for(User use:this.users){
-            if(use.getId() == idDoctor)
-                temp =(Doctor) user;
+        String selected = CboxDoctor.getItemAt(CboxDoctor.getSelectedIndex());
+        if (selected == null || selected.equals("Select one")) {
+            showMessage("Please select a doctor.", false);
+            return;
         }
-        DoctorView doctor = new DoctorView(user,temp, users, hospitalizations,appointments);
-        this.setVisible(false);
-        doctor.setVisible(true);
+
+        try {
+            long doctorId = Long.parseLong(selected);
+            this.setVisible(false);
+            // isFromAdmin = true → btnBack activo en DoctorView
+            new DoctorView(controllers, doctorId, true).setVisible(true);
+        } catch (NumberFormatException e) {
+            showMessage("Invalid doctor selection.", false);
+        }
     }//GEN-LAST:event_btnDoctorViewActionPerformed
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
-        
-        LoginView login = new LoginView();
         this.setVisible(false);
-        login.setVisible(true);
+        new LoginView(controllers).setVisible(true);
     }//GEN-LAST:event_btnLogoutActionPerformed
 
     private void btnPatientViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPatientViewActionPerformed
-        long idPatient = Long.parseLong(CboxDoctor.getItemAt(CboxDoctor.getSelectedIndex()));
-        Patient temp = null;
-        for(User use:this.users){
-            if(use.getId() == idPatient)
-                temp =(Patient) user;
+        String selected = cboxPatient.getItemAt(cboxPatient.getSelectedIndex());
+        if (selected == null || selected.equals("Select one")) {
+            showMessage("Please select a patient.", false);
+            return;
         }
-        PatientView patient = new PatientView(user,temp,users,appointments,hospitalizations);
-        this.setVisible(false);
-        patient.setVisible(true);
+
+        try {
+            long patientId = Long.parseLong(selected);
+            this.setVisible(false);
+            // isFromAdmin = true → btnBack activo en PatientView
+            new PatientView(controllers, patientId, true).setVisible(true);
+        } catch (NumberFormatException e) {
+            showMessage("Invalid patient selection.", false);
+        }
     }//GEN-LAST:event_btnPatientViewActionPerformed
+    private void loadDoctorComboBox() {
+        // Nombre exacto del JFrame: CboxDoctor
+        CboxDoctor.removeAllItems();
+        CboxDoctor.addItem("Select one");
+
+        Response response = controllers.getDoctorController().getAllDoctors();
+        if (response.getStatus() == Status.OK && response.getData() != null) {
+            Object list = response.getData().get("doctors");
+            if (list instanceof java.util.ArrayList) {
+                for (Object obj : (java.util.ArrayList<?>) list) {
+                    if (obj instanceof User) {
+                        CboxDoctor.addItem(String.valueOf(((User) obj).getId()));
+                    }
+                }
+            }
+        }
+    }
+
+    private void loadPatientComboBox() {
+        // Nombre exacto del JFrame: cboxPatient
+        cboxPatient.removeAllItems();
+        cboxPatient.addItem("Select one");
+
+        Response response = controllers.getPatientController().getAllPatients();
+        if (response.getStatus() == Status.OK && response.getData() != null) {
+            Object list = response.getData().get("patients");
+            if (list instanceof java.util.ArrayList) {
+                for (Object obj : (java.util.ArrayList<?>) list) {
+                    if (obj instanceof User) {
+                        cboxPatient.addItem(String.valueOf(((User) obj).getId()));
+                    }
+                }
+            }
+        }
+    }
+
+    // ── HELPERS ───────────────────────────────────────────────────────
+    private void showMessage(String message, boolean success) {
+        int type = success ? JOptionPane.INFORMATION_MESSAGE : JOptionPane.ERROR_MESSAGE;
+        JOptionPane.showMessageDialog(this, message, success ? "Success" : "Error", type);
+    }
+
+    private void clearDoctorFields() {
+        fieldFirstname.setText("");
+        fielLastname.setText("");
+        fieldID.setText("");
+        fielLicenseNumber.setText("");
+        fieldAssignedOffice.setText("");
+        fieldUser.setText("");
+        fieldPassword.setText("");
+        fieldPasswordConfirmation.setText("");
+        cboxSpecialty.setSelectedIndex(0);
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

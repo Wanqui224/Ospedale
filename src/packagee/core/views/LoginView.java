@@ -4,48 +4,28 @@
  */
 package packagee.core.views;
 
-import packagee.core.models.Administrator;
-import com.formdev.flatlaf.FlatDarkLaf;
 import java.awt.Color;
-import java.time.LocalDate;
-import java.time.Month;
-import java.util.ArrayList;
-import javax.swing.UIManager;
+import javax.swing.JOptionPane;
 import packagee.core.controllers.utils.ControllerContainer;
-import packagee.core.models.Appointment;
-import packagee.core.models.Doctor;
-import packagee.core.models.Hospitalization;
-import packagee.core.models.Patient;
-import packagee.core.models.User;
+import packagee.core.controllers.utils.Response;
+import packagee.core.controllers.utils.Status;
 
-/**
- *
- * @author jjlora
- * @author edangulo
- */
 public class LoginView extends javax.swing.JFrame {
 
+    // ── CAMPOS PRIVADOS ───────────────────────────────────────────────
     private int x, y;
-    private ArrayList<User> users;
-    private ArrayList<Hospitalization> hospitalizations;
-    private ArrayList<Appointment> appointments;
+    private final ControllerContainer controllers;
 
-    public LoginView() {
-        initComponents();
-        this.setBackground(new Color(0, 0, 0, 0));
-        this.setLocationRelativeTo(null);
-
-        this.users = new ArrayList<>();
-        this.users.add(new Administrator(0, "admin", "admin", "adnim", "admin123"));
-    }
-
+    // ── CONSTRUCTOR ───────────────────────────────────────────────────
     public LoginView(ControllerContainer controllers) {
         initComponents();
+        this.controllers = controllers;
         this.setBackground(new Color(0, 0, 0, 0));
         this.setLocationRelativeTo(null);
+    }
 
-        this.users = new ArrayList<>();
-        this.users.add(new Administrator(0, "admin", "admin", "adnim", "admin123"));
+    public LoginView() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     /**
@@ -430,60 +410,89 @@ public class LoginView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCloseActionPerformed
 
     private void btnEnterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnterActionPerformed
-        // TODO add your handling code here:
-        User selectedUser = null;
-        for (User user : this.users) {
-            if (FieldUsername.getText().equals(user.getUsername())) {
-                selectedUser = user;
-                if (selectedUser.getPassword().equals(FieldPassword.getText())) {
-                    if (selectedUser instanceof Administrator ) {
-                        AdminView admin = new AdminView(selectedUser,users,hospitalizations, appointments);
-                        this.setVisible(false);
-                        admin.setVisible(true);
-                    }
-                    else if (selectedUser instanceof Doctor ) {
-                        DoctorView doctor = new DoctorView(selectedUser,(Doctor)selectedUser,users,hospitalizations,appointments);
-                        this.setVisible(false);
-                        doctor.setVisible(true);
-                    }
-                    else {
-                        PatientView patient = new PatientView(selectedUser,(Patient) selectedUser,users,appointments, hospitalizations);
-                        this.setVisible(false);
-                        patient.setVisible(true);
-                    }
-                }
-            }
+        String username = FieldUsername.getText();
+        String password = FieldPassword.getText();
+
+        Response response = controllers.getAuthController().login(username, password);
+
+        if (response.getStatus() != Status.OK) {
+            showMessage(response.getMessage(), false);
+            return;
+        }
+
+        String role = (String) response.getData().get("role");
+        long userId = ((Number) response.getData().get("id")).longValue();
+
+        this.setVisible(false);
+
+        switch (role) {
+            case "ADMIN":
+                new AdminView(controllers).setVisible(true);
+                break;
+            case "DOCTOR":
+                new DoctorView(controllers, userId).setVisible(true);
+                break;
+            default: // PATIENT
+                new PatientView(controllers, userId).setVisible(true);
+                break;
         }
 
     }//GEN-LAST:event_btnEnterActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        String firstname = fieldFirstname.getText();
-        String lastname = fieldLastname.getText();
-        long id = Long.parseLong(fieldID.getText());
-        boolean gender = (CboxGender.getSelectedIndex() == 0 ? null : (CboxGender.getSelectedIndex() == 1 ));
-        String birth = fieldBirthdate.getText();
-        String address = fieldAddress.getText();
-        long phone = Long.parseLong(fieldPhone.getText());
-        String email = fieldEmail.getText();
-        String user = fieldUser.getText();
+
+        // Nombres exactos del JFrame
+        String id = fieldID.getText();
+        String username = fieldUser.getText();
+        String first = fieldFirstname.getText();
+        String last = fieldLastname.getText();
         String password = fieldPacientPassword.getText();
-        String comPassword = fieldPswordConfirm.getText();
-        LocalDate birthdate = LocalDate.of(Integer.parseInt(birth.substring(0, 4)), Integer.parseInt(birth.substring(5, 7)), Integer.parseInt(birth.substring(8)));
-        if (comPassword.equals(password)) {
-            users.add(new Patient(id, user, firstname, lastname, password, email, birthdate, gender, phone, address));
+        String confirm = fieldPswordConfirm.getText();
+        String email = fieldEmail.getText();
+        String birth = fieldBirthdate.getText();
+        String gender = CboxGender.getSelectedIndex() == 1 ? "true" : "false";
+        String phone = fieldPhone.getText();
+        String address = fieldAddress.getText();
+
+        Response response = controllers.getPatientController().registerPatient(
+                id, username, first, last,
+                password, confirm,
+                email, birth, gender, phone, address
+        );
+
+        if (response.getStatus() == Status.CREATED || response.getStatus() == Status.OK) {
+            showMessage("Patient registered successfully!", true);
+            clearRegisterFields();
+        } else {
+            showMessage(response.getMessage(), false);
         }
-        
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void fieldPswordConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldPswordConfirmActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_fieldPswordConfirmActionPerformed
+    private void showMessage(String message, boolean success) {
+        int type = success ? JOptionPane.INFORMATION_MESSAGE : JOptionPane.ERROR_MESSAGE;
+        JOptionPane.showMessageDialog(this, message, success ? "Success" : "Error", type);
+    }
 
+    private void clearRegisterFields() {
+        fieldFirstname.setText("");
+        fieldLastname.setText("");
+        fieldID.setText("");
+        fieldBirthdate.setText("");
+        fieldAddress.setText("");
+        fieldPhone.setText("");
+        fieldEmail.setText("");
+        fieldUser.setText("");
+        fieldPacientPassword.setText("");
+        fieldPswordConfirm.setText("");
+        CboxGender.setSelectedIndex(0);
+    }
     /**
      * @param args the command line arguments
      */
-  
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> CboxGender;
