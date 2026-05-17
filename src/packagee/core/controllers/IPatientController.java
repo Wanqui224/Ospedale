@@ -43,4 +43,6 @@ public interface IPatientController {
     Response getPatient(String id);
 
     Response getAllPatients();
+
+    Response getPatientAppointmentIds(String patientId);
 }

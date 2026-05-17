@@ -11,6 +11,7 @@ import packagee.core.controllers.utils.Response;
 import packagee.core.controllers.utils.Status;
 import packagee.core.controllers.utils.UserSerializer;
 import packagee.core.controllers.utils.UserValidator;
+import packagee.core.models.Appointment;
 import packagee.core.models.Patient;
 import packagee.core.models.User;
 import packagee.core.models.storage.IHospitalStorage;
@@ -27,7 +28,6 @@ public class PatientController implements IPatientController {
         this.storage = storage;
     }
 
-    
     private Response validatePatientData(
             String username, String firstname, String lastname,
             String password, String confirmPassword, String email,
@@ -66,7 +66,6 @@ public class PatientController implements IPatientController {
         return null;
     }
 
-    
     @Override
     public Response registerPatient(
             String id, String username, String firstname, String lastname,
@@ -87,7 +86,6 @@ public class PatientController implements IPatientController {
                 return new Response("A user with that username already exists", Status.BAD_REQUEST);
             }
 
-           
             Response validation = validatePatientData(
                     username, firstname, lastname, password,
                     confirmPassword, email, birthdate, gender, phone, address
@@ -96,7 +94,6 @@ public class PatientController implements IPatientController {
                 return validation;
             }
 
-            
             Patient patient = new Patient(
                     idLong, username.trim(), firstname.trim(), lastname.trim(),
                     password, email.trim(), LocalDate.parse(birthdate.trim()),
@@ -112,7 +109,6 @@ public class PatientController implements IPatientController {
         }
     }
 
-   
     @Override
     public Response updatePatient(
             String id, String username, String firstname, String lastname,
@@ -134,13 +130,11 @@ public class PatientController implements IPatientController {
                 return new Response("User is not a patient", Status.BAD_REQUEST);
             }
 
-            
             User existingUsername = storage.getUserByUsername(username.trim());
             if (existingUsername != null && existingUsername.getId() != idLong) {
                 return new Response("A user with that username already exists", Status.BAD_REQUEST);
             }
 
-            
             Response validation = validatePatientData(
                     username, firstname, lastname, password,
                     confirmPassword, email, birthdate, gender, phone, address
@@ -149,7 +143,6 @@ public class PatientController implements IPatientController {
                 return validation;
             }
 
-            
             Patient patient = (Patient) user;
             patient.setUsername(username.trim());
             patient.setFirstname(firstname.trim());
@@ -168,7 +161,6 @@ public class PatientController implements IPatientController {
         }
     }
 
-    
     @Override
     public Response getPatient(String id) {
         try {
@@ -206,6 +198,33 @@ public class PatientController implements IPatientController {
             HashMap<String, Object> data = new HashMap<>();
             data.put("patients", patients);
             return new Response("Patients retrieved successfully", Status.OK, data);
+
+        } catch (Exception e) {
+            return new Response("Unexpected error", Status.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    public Response getPatientAppointmentIds(String patientId) {
+        try {
+            if (!UserValidator.isValidId(patientId)) {
+                return new Response("Invalid patient id", Status.BAD_REQUEST);
+            }
+
+            User user = storage.getUserById(Long.parseLong(patientId.trim()));
+            if (user == null || !(user instanceof Patient)) {
+                return new Response("Patient not found", Status.NOT_FOUND);
+            }
+
+            Patient patient = (Patient) user;
+            ArrayList<String> ids = new ArrayList<>();
+            for (Appointment a : patient.getAppointments()) {
+                ids.add(a.getId());
+            }
+
+            HashMap<String, Object> data = new HashMap<>();
+            data.put("appointmentIds", ids);
+            return new Response("Appointment ids retrieved successfully", Status.OK, data);
 
         } catch (Exception e) {
             return new Response("Unexpected error", Status.INTERNAL_SERVER_ERROR);
