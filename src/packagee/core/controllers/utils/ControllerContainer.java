@@ -9,6 +9,9 @@ import packagee.core.controllers.IAppointmentManagementController;
 import packagee.core.controllers.IAppointmentQueryController;
 import packagee.core.controllers.IAppointmentRequestController;
 import packagee.core.controllers.IDoctorController;
+import packagee.core.controllers.IHospitalizationManagementController;
+import packagee.core.controllers.IHospitalizationQueryController;
+import packagee.core.controllers.IHospitalizationRequestController;
 import packagee.core.controllers.IPatientController;
 import packagee.core.controllers.IPrescriptionController;
 
@@ -25,7 +28,9 @@ public class ControllerContainer {
     private final IAppointmentManagementController appointmentManagementController;
     private final IAppointmentQueryController appointmentQueryController;
     private final IPrescriptionController prescriptionController;
-    private final IHospitalizationController hospitalizationController;
+    private final IHospitalizationRequestController hospitalizationRequestController;
+    private final IHospitalizationManagementController hospitalizationManagementController;
+    private final IHospitalizationQueryController hospitalizationQueryController;
 
     public ControllerContainer(
             AuthController authController,
@@ -35,7 +40,9 @@ public class ControllerContainer {
             IAppointmentManagementController appointmentManagementController,
             IAppointmentQueryController appointmentQueryController,
             IPrescriptionController prescriptionController,
-            IHospitalizationController hospitalizationController
+            IHospitalizationRequestController hospitalizationRequestController,
+            IHospitalizationManagementController hospitalizationManagementController,
+            IHospitalizationQueryController hospitalizationQueryController
     ) {
         this.authController = authController;
         this.patientController = patientController;
@@ -44,7 +51,9 @@ public class ControllerContainer {
         this.appointmentManagementController = appointmentManagementController;
         this.appointmentQueryController = appointmentQueryController;
         this.prescriptionController = prescriptionController;
-        this.hospitalizationController = hospitalizationController;
+        this.hospitalizationRequestController = hospitalizationRequestController;
+        this.hospitalizationManagementController = hospitalizationManagementController;
+        this.hospitalizationQueryController = hospitalizationQueryController;
     }
 
     public AuthController getAuthController() {
@@ -75,7 +84,15 @@ public class ControllerContainer {
         return prescriptionController;
     }
 
-    public IHospitalizationController getHospitalizationController() {
-        return hospitalizationController;
+    public IHospitalizationRequestController getHospitalizationRequestController() {
+        return hospitalizationRequestController;
+    }
+
+    public IHospitalizationManagementController getHospitalizationManagementController() {
+        return hospitalizationManagementController;
+    }
+
+    public IHospitalizationQueryController getHospitalizationQueryController() {
+        return hospitalizationQueryController;
     }
 }
