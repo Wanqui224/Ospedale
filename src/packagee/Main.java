@@ -6,12 +6,17 @@ package packagee;
 
 import com.formdev.flatlaf.FlatDarkLaf;
 import javax.swing.UIManager;
-import packagee.core.controllers.AppointmentController;
 import packagee.core.controllers.AuthController;
 import packagee.core.controllers.DoctorController;
-import packagee.core.controllers.HospitalizationController;
+import packagee.core.controllers.HospitalizationManagementController;
+import packagee.core.controllers.HospitalizationQueryController;
+import packagee.core.controllers.HospitalizationRequestController;
 import packagee.core.controllers.PatientController;
+import packagee.core.controllers.utils.AppointmentManagementController;
+import packagee.core.controllers.utils.AppointmentQueryController;
+import packagee.core.controllers.utils.AppointmentRequestController;
 import packagee.core.controllers.utils.ControllerContainer;
+import packagee.core.controllers.utils.PrescriptionController;
 import packagee.core.models.storage.HospitalStorage;
 import packagee.core.models.storage.IHospitalStorage;
 import packagee.core.views.LoginView;
@@ -30,10 +35,14 @@ public class Main {
                 new AuthController(storage),
                 new PatientController(storage),
                 new DoctorController(storage),
-                new AppointmentController(storage),
-                new HospitalizationController(storage)
+                new AppointmentRequestController(storage),
+                new AppointmentManagementController(storage),
+                new AppointmentQueryController(storage),
+                new PrescriptionController(storage),
+                new HospitalizationRequestController(storage),
+                new HospitalizationManagementController(storage),
+                new HospitalizationQueryController(storage)
         );
-
         System.setProperty("flatlaf.useNativeLibrary", "false");
         try {
             UIManager.setLookAndFeel(new FlatDarkLaf());

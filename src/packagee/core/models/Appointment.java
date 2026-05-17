@@ -4,7 +4,6 @@
  */
 package packagee.core.models;
 
-
 import packagee.core.models.enums.AppointmentStatus;
 import packagee.core.models.enums.Specialty;
 import java.time.LocalDateTime;
@@ -15,7 +14,7 @@ import java.util.ArrayList;
  * @author edangulo
  */
 public class Appointment {
-    
+
     private final String id;
     private Patient patient;
     private Doctor doctor;
@@ -97,5 +96,13 @@ public class Appointment {
     public boolean addPrescription(Prescription prescrip) {
         return this.prescriptions.add(prescrip);
     }
-    
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setDatetime(LocalDateTime datetime) {
+        this.datetime = datetime;
+    }
+
 }
