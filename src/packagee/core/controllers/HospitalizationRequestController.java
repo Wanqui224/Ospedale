@@ -14,6 +14,7 @@ import packagee.core.models.Doctor;
 import packagee.core.models.Hospitalization;
 import packagee.core.models.Patient;
 import packagee.core.models.User;
+import packagee.core.models.enums.HospitalizationStatus;
 import packagee.core.models.enums.RoomType;
 import packagee.core.models.storage.IHospitalStorage;
 
@@ -80,6 +81,16 @@ public class HospitalizationRequestController implements IHospitalizationRequest
 
             Patient patient = (Patient) patientUser;
             Doctor doctor = (Doctor) doctorUser;
+            
+            for (Hospitalization h : storage.getHospitalizations()) {
+                if (h.getPatient().getId() == patient.getId()
+                        && h.getStatus() == HospitalizationStatus.ONGOING) {
+                    return new Response(
+                            "Patient already has an ongoing hospitalization",
+                            Status.BAD_REQUEST
+                    );
+                }
+            }
 
             String id = generateHospitalizationId(patient);
             Hospitalization hospitalization = new Hospitalization(

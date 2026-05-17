@@ -60,4 +60,22 @@ public class AuthController {
             return new Response("Unexpected error", Status.INTERNAL_SERVER_ERROR);
         }
     }
+
+    public Response getUser(String id) {
+        try {
+            if (!UserValidator.isValidId(id)) {
+                return new Response("Invalid id", Status.BAD_REQUEST);
+            }
+
+            User user = storage.getUserById(Long.parseLong(id.trim()));
+            if (user == null) {
+                return new Response("User not found", Status.NOT_FOUND);
+            }
+
+            return new Response("User found", Status.OK, UserSerializer.serialize(user));
+
+        } catch (Exception e) {
+            return new Response("Unexpected error", Status.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

@@ -10,6 +10,7 @@ import packagee.core.controllers.utils.Response;
 import packagee.core.controllers.utils.Status;
 import packagee.core.controllers.utils.UserSerializer;
 import packagee.core.controllers.utils.UserValidator;
+import packagee.core.models.Appointment;
 import packagee.core.models.Doctor;
 import packagee.core.models.User;
 import packagee.core.models.enums.Specialty;
@@ -197,6 +198,33 @@ public class DoctorController implements IDoctorController {
             HashMap<String, Object> data = new HashMap<>();
             data.put("doctors", doctors);
             return new Response("Doctors retrieved successfully", Status.OK, data);
+
+        } catch (Exception e) {
+            return new Response("Unexpected error", Status.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    public Response getDoctorAppointmentIds(String doctorId) {
+        try {
+            if (!UserValidator.isValidId(doctorId)) {
+                return new Response("Invalid doctor id", Status.BAD_REQUEST);
+            }
+
+            User user = storage.getUserById(Long.parseLong(doctorId.trim()));
+            if (user == null || !(user instanceof Doctor)) {
+                return new Response("Doctor not found", Status.NOT_FOUND);
+            }
+
+            Doctor doctor = (Doctor) user;
+            ArrayList<String> ids = new ArrayList<>();
+            for (Appointment a : doctor.getAppointments()) {
+                ids.add(a.getId());
+            }
+
+            HashMap<String, Object> data = new HashMap<>();
+            data.put("appointmentIds", ids);
+            return new Response("Appointment ids retrieved successfully", Status.OK, data);
 
         } catch (Exception e) {
             return new Response("Unexpected error", Status.INTERNAL_SERVER_ERROR);
