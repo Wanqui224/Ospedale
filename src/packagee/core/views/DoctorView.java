@@ -1185,7 +1185,12 @@ public class DoctorView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnGenerateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerateActionPerformed
-        String patId = cboxPatientID.getItemAt(cboxPatientID.getSelectedIndex());
+        String selectedPat = cboxPatientID.getItemAt(cboxPatientID.getSelectedIndex());
+        if (selectedPat == null || selectedPat.equals("Select one")) {
+            showMessage("Please select a patient.", false);
+            return;
+        }
+        String patId = selectedPat.split(" - ")[0].trim();
         String reason = atxtReason.getText();
         String observations = AtxtObservationsHospital.getText();
         String entryDate = fieldEntry.getText();

@@ -895,20 +895,22 @@ public class PatientView extends javax.swing.JFrame {
 
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
-
         Response response = controllers.getAppointmentQueryController()
                 .getPatientAppointments(String.valueOf(patientId));
 
-        // Nombre exacto del JFrame: TableAppointmentHistory
         DefaultTableModel model = (DefaultTableModel) TableAppointmentHistory.getModel();
         model.setRowCount(0);
 
         if (response.getStatus() == Status.OK && response.getData() != null) {
             Object list = response.getData().get("appointments");
             if (list instanceof java.util.ArrayList) {
-                for (Object row : (java.util.ArrayList<?>) list) {
-                    if (row instanceof Object[]) {
-                        model.addRow((Object[]) row);
+                for (Object obj : (java.util.ArrayList<?>) list) {
+                    if (obj instanceof java.util.HashMap) {
+                        java.util.HashMap<?, ?> a = (java.util.HashMap<?, ?>) obj;
+                        model.addRow(new Object[]{
+                            a.get("id"), a.get("datetime"), a.get("doctor"),
+                            a.get("specialty"), a.get("type"), a.get("status")
+                        });
                     }
                 }
             }
