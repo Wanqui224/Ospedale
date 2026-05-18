@@ -1210,7 +1210,12 @@ public class DoctorView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGenerateActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        String patientId = cboxPatient.getItemAt(cboxPatient.getSelectedIndex());
+        String selected = cboxPatient.getItemAt(cboxPatient.getSelectedIndex());
+        if (selected == null || selected.equals("Select one")) {
+            showMessage("Please select a patient.", false);
+            return;
+        }
+        String patientId = selected.split(" - ")[0].trim();
         if (patientId == null || patientId.equals("Select one")) {
             showMessage("Please select a patient.", false);
             return;
@@ -1403,41 +1408,41 @@ public class DoctorView extends javax.swing.JFrame {
     }
 
     private void loadHospitalizationComboBox() {
-       xboxRequest.removeAllItems();
-    xboxRequest.addItem("Select one");
+        xboxRequest.removeAllItems();
+        xboxRequest.addItem("Select one");
 
-    Response response = controllers.getHospitalizationQueryController()
-            .getDoctorHospitalizations(String.valueOf(doctorId));
+        Response response = controllers.getHospitalizationQueryController()
+                .getDoctorHospitalizations(String.valueOf(doctorId));
 
-    if (response.getStatus() == Status.OK && response.getData() != null) {
-        Object list = response.getData().get("hospitalizations"); // ← era "hospitalizationIds"
-        if (list instanceof java.util.ArrayList) {
-            for (Object obj : (java.util.ArrayList<?>) list) {
-                if (obj instanceof java.util.HashMap) {
-                    java.util.HashMap<?, ?> h = (java.util.HashMap<?, ?>) obj;
-                    xboxRequest.addItem(String.valueOf(h.get("id")));
+        if (response.getStatus() == Status.OK && response.getData() != null) {
+            Object list = response.getData().get("hospitalizations"); // ← era "hospitalizationIds"
+            if (list instanceof java.util.ArrayList) {
+                for (Object obj : (java.util.ArrayList<?>) list) {
+                    if (obj instanceof java.util.HashMap) {
+                        java.util.HashMap<?, ?> h = (java.util.HashMap<?, ?>) obj;
+                        xboxRequest.addItem(String.valueOf(h.get("id")));
+                    }
                 }
             }
         }
-    }
     }
 
     // ── HELPERS ───────────────────────────────────────────────────────
     private void fillAppointmentTable(DefaultTableModel model, Response response) {
         if (response.getStatus() == Status.OK && response.getData() != null) {
-        Object list = response.getData().get("appointments");
-        if (list instanceof java.util.ArrayList) {
-            for (Object obj : (java.util.ArrayList<?>) list) {
-                if (obj instanceof java.util.HashMap) {
-                    java.util.HashMap<?, ?> a = (java.util.HashMap<?, ?>) obj;
-                    model.addRow(new Object[]{
-                        a.get("id"), a.get("datetime"), a.get("patient"),
-                        a.get("specialty"), a.get("type"), a.get("status")
-                    });
+            Object list = response.getData().get("appointments");
+            if (list instanceof java.util.ArrayList) {
+                for (Object obj : (java.util.ArrayList<?>) list) {
+                    if (obj instanceof java.util.HashMap) {
+                        java.util.HashMap<?, ?> a = (java.util.HashMap<?, ?>) obj;
+                        model.addRow(new Object[]{
+                            a.get("id"), a.get("datetime"), a.get("patient"),
+                            a.get("specialty"), a.get("type"), a.get("status")
+                        });
+                    }
                 }
             }
         }
-    }
     }
 
     private void showMessage(String message, boolean success) {
