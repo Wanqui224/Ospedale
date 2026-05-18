@@ -1425,15 +1425,19 @@ public class DoctorView extends javax.swing.JFrame {
     // ── HELPERS ───────────────────────────────────────────────────────
     private void fillAppointmentTable(DefaultTableModel model, Response response) {
         if (response.getStatus() == Status.OK && response.getData() != null) {
-            Object list = response.getData().get("appointments");
-            if (list instanceof java.util.ArrayList) {
-                for (Object row : (java.util.ArrayList<?>) list) {
-                    if (row instanceof Object[]) {
-                        model.addRow((Object[]) row);
-                    }
+        Object list = response.getData().get("appointments");
+        if (list instanceof java.util.ArrayList) {
+            for (Object obj : (java.util.ArrayList<?>) list) {
+                if (obj instanceof java.util.HashMap) {
+                    java.util.HashMap<?, ?> a = (java.util.HashMap<?, ?>) obj;
+                    model.addRow(new Object[]{
+                        a.get("id"), a.get("datetime"), a.get("patient"),
+                        a.get("specialty"), a.get("type"), a.get("status")
+                    });
                 }
             }
         }
+    }
     }
 
     private void showMessage(String message, boolean success) {

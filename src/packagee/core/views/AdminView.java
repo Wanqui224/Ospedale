@@ -442,9 +442,9 @@ public class AdminView extends javax.swing.JFrame {
         }
 
         try {
-           String doctorIdStr = selected.split(" - ")[0].trim();
-this.setVisible(false);
-new DoctorView(controllers, Long.parseLong(doctorIdStr), true).setVisible(true);
+            String doctorIdStr = selected.split(" - ")[0].trim();
+            this.setVisible(false);
+            new DoctorView(controllers, Long.parseLong(doctorIdStr), true).setVisible(true);
         } catch (NumberFormatException e) {
             showMessage("Invalid doctor selection.", false);
         }
