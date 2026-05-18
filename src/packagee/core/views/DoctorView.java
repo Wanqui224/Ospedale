@@ -1239,7 +1239,7 @@ public class DoctorView extends javax.swing.JFrame {
     //GEN-LAST:event_btnSearchActionPerformed
 
     private void btnPrescribeActionPerformeds(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrescribeActionPerformed
-        // Nombre exacto del JFrame: prescribeMedicationsTable
+        
         DefaultTableModel model = (DefaultTableModel) prescribeMedicationsTable.getModel();
         model.setRowCount(0);
     }//GEN-LAST:event_btnSearchActionPerformed
@@ -1434,20 +1434,20 @@ public class DoctorView extends javax.swing.JFrame {
 
     // ── HELPERS ───────────────────────────────────────────────────────
     private void fillAppointmentTable(DefaultTableModel model, Response response) {
-        if (response.getStatus() == Status.OK && response.getData() != null) {
-            Object list = response.getData().get("appointments");
-            if (list instanceof java.util.ArrayList) {
-                for (Object obj : (java.util.ArrayList<?>) list) {
-                    if (obj instanceof java.util.HashMap) {
-                        java.util.HashMap<?, ?> a = (java.util.HashMap<?, ?>) obj;
-                        model.addRow(new Object[]{
-                            a.get("id"), a.get("datetime"), a.get("patient"),
-                            a.get("specialty"), a.get("type"), a.get("status")
-                        });
-                    }
+         if (response.getStatus() == Status.OK && response.getData() != null) {
+        Object list = response.getData().get("appointments");
+        if (list instanceof java.util.ArrayList) {
+            for (Object obj : (java.util.ArrayList<?>) list) {
+                if (obj instanceof java.util.HashMap) {
+                    java.util.HashMap<?, ?> a = (java.util.HashMap<?, ?>) obj;
+                    model.addRow(new Object[]{
+                        a.get("id"), a.get("datetime"), a.get("patient"),
+                        a.get("specialty"), a.get("type"), a.get("status")
+                    });
                 }
             }
         }
+    }
     }
 
     private void showMessage(String message, boolean success) {

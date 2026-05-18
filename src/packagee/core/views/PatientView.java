@@ -880,8 +880,9 @@ public class PatientView extends javax.swing.JFrame {
             response = controllers.getAppointmentRequestController()
                     .requestAppointmentByDoctor(String.valueOf(patientId), doctorId, date, hour, type, reason);
         } else {
+            String specialtyEnum = selected == null ? "" : selected.replaceAll(" & ", "_").replaceAll(" ", "_");
             response = controllers.getAppointmentRequestController()
-                    .requestAppointmentBySpecialty(String.valueOf(patientId), selected == null ? "" : selected, date, hour, type, reason);
+                    .requestAppointmentBySpecialty(String.valueOf(patientId), specialtyEnum, date, hour, type, reason);
         }
 
         if (response.getStatus() == Status.CREATED || response.getStatus() == Status.OK) {
