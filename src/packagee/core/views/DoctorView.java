@@ -1403,21 +1403,23 @@ public class DoctorView extends javax.swing.JFrame {
     }
 
     private void loadHospitalizationComboBox() {
-        // Nombre exacto del JFrame: xboxRequest
-        xboxRequest.removeAllItems();
-        xboxRequest.addItem("Select one");
+       xboxRequest.removeAllItems();
+    xboxRequest.addItem("Select one");
 
-        Response response = controllers.getHospitalizationQueryController()
-                .getDoctorHospitalizations(String.valueOf(doctorId));
+    Response response = controllers.getHospitalizationQueryController()
+            .getDoctorHospitalizations(String.valueOf(doctorId));
 
-        if (response.getStatus() == Status.OK && response.getData() != null) {
-            Object list = response.getData().get("hospitalizationIds");
-            if (list instanceof java.util.ArrayList) {
-                for (Object id : (java.util.ArrayList<?>) list) {
-                    xboxRequest.addItem(String.valueOf(id));
+    if (response.getStatus() == Status.OK && response.getData() != null) {
+        Object list = response.getData().get("hospitalizations"); // ← era "hospitalizationIds"
+        if (list instanceof java.util.ArrayList) {
+            for (Object obj : (java.util.ArrayList<?>) list) {
+                if (obj instanceof java.util.HashMap) {
+                    java.util.HashMap<?, ?> h = (java.util.HashMap<?, ?>) obj;
+                    xboxRequest.addItem(String.valueOf(h.get("id")));
                 }
             }
         }
+    }
     }
 
     // ── HELPERS ───────────────────────────────────────────────────────
