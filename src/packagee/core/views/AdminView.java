@@ -5,14 +5,10 @@
 package packagee.core.views;
 
 import java.awt.Color;
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import packagee.core.controllers.utils.ControllerContainer;
 import packagee.core.controllers.utils.Response;
 import packagee.core.controllers.utils.Status;
-import packagee.core.models.Appointment;
-import packagee.core.models.Hospitalization;
-import packagee.core.models.User;
 
 public class AdminView extends javax.swing.JFrame {
 
@@ -32,13 +28,7 @@ public class AdminView extends javax.swing.JFrame {
         loadPatientComboBox();
     }
 
-    public AdminView(ControllerContainer controllers, User user) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    public AdminView(User user, User temp, ArrayList<User> users, ArrayList<Hospitalization> hospitalizations, ArrayList<Appointment> appointments) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+  
 
     /**
      * This method is called from within the constructor to initialize the form.

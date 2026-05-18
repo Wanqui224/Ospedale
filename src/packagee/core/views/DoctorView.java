@@ -5,15 +5,11 @@
 package packagee.core.views;
  import packagee.core.controllers.utils.NavigationController;
 import java.awt.Color;
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import packagee.core.controllers.utils.ControllerContainer;
 import packagee.core.controllers.utils.Response;
 import packagee.core.controllers.utils.Status;
-import packagee.core.models.Appointment;
-import packagee.core.models.Hospitalization;
-import packagee.core.models.User;
  
 public class DoctorView extends javax.swing.JFrame {
  
@@ -53,17 +49,7 @@ public class DoctorView extends javax.swing.JFrame {
         loadHospitalizationComboBox();
     }
 
-    public DoctorView(ControllerContainer controllers) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    public DoctorView(ControllerContainer controllers, User user) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    public DoctorView(User user, User temp, ArrayList<User> users, ArrayList<Hospitalization> hospitalizations, ArrayList<Appointment> appointments) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+   
 
     /**
      * This method is called from within the constructor to initialize the form.
