@@ -3,13 +3,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package packagee.core.views;
-import packagee.core.controllers.utils.NavigationController;
+
 import java.awt.Color;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import packagee.core.controllers.utils.ControllerContainer;
 import packagee.core.controllers.utils.Response;
 import packagee.core.controllers.utils.Status;
+import packagee.core.models.enums.RoomType;
 
 public class PatientView extends javax.swing.JFrame {
 
@@ -18,7 +19,6 @@ public class PatientView extends javax.swing.JFrame {
     private final ControllerContainer controllers;
     private final long patientId;
     private final boolean isFromAdmin;
-    private NavigationController navigationController;
 
     // ── CONSTRUCTOR DESDE LOGIN DIRECTO ───────────────────────────────
     public PatientView(ControllerContainer controllers, long patientId) {
@@ -34,8 +34,6 @@ public class PatientView extends javax.swing.JFrame {
 
         this.setBackground(new Color(0, 0, 0, 0));
         this.setLocationRelativeTo(null);
-        this.navigationController =
-        new NavigationController(controllers);
 
         // Día 4-5: btnBack visible SOLO para admin
         btnBack.setVisible(isFromAdmin);
@@ -48,8 +46,6 @@ public class PatientView extends javax.swing.JFrame {
         loadRoomTypeComboBox();
         loadAppointmentIdComboBox();
     }
-
- 
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -845,28 +841,25 @@ public class PatientView extends javax.swing.JFrame {
 
     private void rbtnSpecialtyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnSpecialtyActionPerformed
         rbtnDoctor.setSelected(false);
-
-        // Nombre exacto del JFrame: CboxSpecialty
         CboxSpecialty.removeAllItems();
         CboxSpecialty.addItem("Select one");
-        for (Specialty spec : Specialty.values()) {
+        for (packagee.core.models.enums.Specialty spec : packagee.core.models.enums.Specialty.values()) {
             CboxSpecialty.addItem(spec.toString().replaceAll("_", " & "));
         }
     }//GEN-LAST:event_rbtnSpecialtyActionPerformed
 
     private void rbtnDoctorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnDoctorActionPerformed
         rbtnSpecialty.setSelected(false);
-
         CboxSpecialty.removeAllItems();
         CboxSpecialty.addItem("Select one");
-
         Response response = controllers.getDoctorController().getAllDoctors();
         if (response.getStatus() == Status.OK && response.getData() != null) {
             Object list = response.getData().get("doctors");
             if (list instanceof java.util.ArrayList) {
                 for (Object obj : (java.util.ArrayList<?>) list) {
-                    if (obj instanceof User) {
-                        CboxSpecialty.addItem(String.valueOf(((User) obj).getId()));
+                    if (obj instanceof java.util.HashMap) {
+                        java.util.HashMap<?, ?> d = (java.util.HashMap<?, ?>) obj;
+                        CboxSpecialty.addItem(d.get("id") + " - " + d.get("firstname") + " " + d.get("lastname"));
                     }
                 }
             }
@@ -874,19 +867,21 @@ public class PatientView extends javax.swing.JFrame {
     }//GEN-LAST:event_rbtnDoctorActionPerformed
 
     private void btnCreateAppoimentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateAppoimentActionPerformed
-        String doctorOrSpecialty = CboxSpecialty.getItemAt(CboxSpecialty.getSelectedIndex());
+        String selected = CboxSpecialty.getItemAt(CboxSpecialty.getSelectedIndex());
         String date = fieldAppmentDate.getText();
-        String hour = fieldAppmentReason.getText();   // campo de hora en el JFrame
+        String hour = fieldAppmentReason.getText();
         String reason = AtxtAppmentReason.getText();
         String type = cboxAppmentType.getItemAt(cboxAppmentType.getSelectedIndex());
-        String filter = rbtnDoctor.isSelected() ? "DOCTOR" : "SPECIALTY";
 
-        Response response = controllers.getAppointmentRequestController()
-                .createAppointment(
-                        String.valueOf(patientId),
-                        doctorOrSpecialty,
-                        date, hour, reason, type, filter
-                );
+        Response response;
+        if (rbtnDoctor.isSelected()) {
+            String doctorId = selected == null ? "" : selected.split(" - ")[0].trim();
+            response = controllers.getAppointmentRequestController()
+                    .requestAppointmentByDoctor(String.valueOf(patientId), doctorId, date, hour, type, reason);
+        } else {
+            response = controllers.getAppointmentRequestController()
+                    .requestAppointmentBySpecialty(String.valueOf(patientId), selected == null ? "" : selected, date, hour, type, reason);
+        }
 
         if (response.getStatus() == Status.CREATED || response.getStatus() == Status.OK) {
             showMessage("Appointment created successfully!", true);
@@ -922,19 +917,16 @@ public class PatientView extends javax.swing.JFrame {
     private void btnCreateHospitalizationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateHospitalizationActionPerformed
         String reason = AtxtHospitalreason.getText();
         String doctorId = cboxAttndingDoctor.getItemAt(cboxAttndingDoctor.getSelectedIndex());
-        String estimatedDate = fielDateEstimated.getText();  // fielDateEstimated (sin 'd')
+        String estimatedDate = fielDateEstimated.getText();
         String roomType = cboxDesiredRoom.getItemAt(cboxDesiredRoom.getSelectedIndex());
         String observations = AtxtObservations.getText();
 
+        if (doctorId != null && doctorId.contains(" - ")) {
+            doctorId = doctorId.split(" - ")[0].trim();
+        }
+
         Response response = controllers.getHospitalizationRequestController()
-                .createHospitalizationRequest(
-                        String.valueOf(patientId),
-                        doctorId,
-                        estimatedDate,
-                        roomType,
-                        reason,
-                        observations
-                );
+                .requestHospitalization(String.valueOf(patientId), doctorId, estimatedDate, reason, roomType, observations);
 
         if (response.getStatus() == Status.CREATED || response.getStatus() == Status.OK) {
             showMessage("Hospitalization request created!", true);
@@ -966,7 +958,6 @@ public class PatientView extends javax.swing.JFrame {
     }
 
     private void loadAttendingDoctorComboBox() {
-        // Nombre exacto del JFrame: cboxAttndingDoctor
         cboxAttndingDoctor.removeAllItems();
         cboxAttndingDoctor.addItem("Select one");
 
@@ -975,8 +966,10 @@ public class PatientView extends javax.swing.JFrame {
             Object list = response.getData().get("doctors");
             if (list instanceof java.util.ArrayList) {
                 for (Object obj : (java.util.ArrayList<?>) list) {
-                    if (obj instanceof User) {
-                        cboxAttndingDoctor.addItem(String.valueOf(((User) obj).getId()));
+                    if (obj instanceof java.util.HashMap) {
+                        java.util.HashMap<?, ?> d = (java.util.HashMap<?, ?>) obj;
+                        String entry = d.get("id") + " - " + d.get("firstname") + " " + d.get("lastname");
+                        cboxAttndingDoctor.addItem(entry);
                     }
                 }
             }

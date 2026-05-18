@@ -28,8 +28,6 @@ public class AdminView extends javax.swing.JFrame {
         loadPatientComboBox();
     }
 
-  
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -475,17 +473,16 @@ public class AdminView extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnPatientViewActionPerformed
     private void loadDoctorComboBox() {
-        // Nombre exacto del JFrame: CboxDoctor
         CboxDoctor.removeAllItems();
         CboxDoctor.addItem("Select one");
-
         Response response = controllers.getDoctorController().getAllDoctors();
         if (response.getStatus() == Status.OK && response.getData() != null) {
             Object list = response.getData().get("doctors");
             if (list instanceof java.util.ArrayList) {
                 for (Object obj : (java.util.ArrayList<?>) list) {
-                    if (obj instanceof User) {
-                        CboxDoctor.addItem(String.valueOf(((User) obj).getId()));
+                    if (obj instanceof java.util.HashMap) {
+                        java.util.HashMap<?, ?> d = (java.util.HashMap<?, ?>) obj;
+                        CboxDoctor.addItem(d.get("id") + " - " + d.get("firstname") + " " + d.get("lastname"));
                     }
                 }
             }
@@ -493,17 +490,16 @@ public class AdminView extends javax.swing.JFrame {
     }
 
     private void loadPatientComboBox() {
-        // Nombre exacto del JFrame: cboxPatient
         cboxPatient.removeAllItems();
         cboxPatient.addItem("Select one");
-
         Response response = controllers.getPatientController().getAllPatients();
         if (response.getStatus() == Status.OK && response.getData() != null) {
             Object list = response.getData().get("patients");
             if (list instanceof java.util.ArrayList) {
                 for (Object obj : (java.util.ArrayList<?>) list) {
-                    if (obj instanceof User) {
-                        cboxPatient.addItem(String.valueOf(((User) obj).getId()));
+                    if (obj instanceof java.util.HashMap) {
+                        java.util.HashMap<?, ?> p = (java.util.HashMap<?, ?>) obj;
+                        cboxPatient.addItem(p.get("id") + " - " + p.get("firstname") + " " + p.get("lastname"));
                     }
                 }
             }

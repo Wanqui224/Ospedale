@@ -3,53 +3,48 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package packagee.core.views;
- import packagee.core.controllers.utils.NavigationController;
+
 import java.awt.Color;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import packagee.core.controllers.utils.ControllerContainer;
 import packagee.core.controllers.utils.Response;
 import packagee.core.controllers.utils.Status;
- 
+
 public class DoctorView extends javax.swing.JFrame {
- 
+
     // ── CAMPOS PRIVADOS ───────────────────────────────────────────────
     private int x, y;
     private final ControllerContainer controllers;
     private final long doctorId;
     private final boolean isFromAdmin;
-    private NavigationController navigationController;
- 
+
     // ── CONSTRUCTOR DESDE LOGIN DIRECTO ───────────────────────────────
     public DoctorView(ControllerContainer controllers, long doctorId) {
         this(controllers, doctorId, false);
     }
- 
+
     // ── CONSTRUCTOR DESDE ADMINVIEW (Back habilitado) ─────────────────
     public DoctorView(ControllerContainer controllers, long doctorId, boolean isFromAdmin) {
         initComponents();
-        this.controllers  = controllers;
-        this.doctorId     = doctorId;
-        this.isFromAdmin  = isFromAdmin;
- 
+        this.controllers = controllers;
+        this.doctorId = doctorId;
+        this.isFromAdmin = isFromAdmin;
+
         this.setBackground(new Color(0, 0, 0, 0));
         this.setLocationRelativeTo(null);
-        this.navigationController =
-        new NavigationController(controllers);
- 
+
         // Día 4-5: btnBack visible SOLO para admin
         btnBack.setVisible(isFromAdmin);
- 
+
         // Día 4-5: cargar datos del doctor logueado en los campos
         loadDoctorData();
- 
+
         // Día 4-5: cargar ComboBoxes automáticamente
         loadPatientComboBoxes();
         loadAppointmentComboBoxes();
         loadHospitalizationComboBox();
     }
-
-   
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -1128,11 +1123,11 @@ public class DoctorView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCloseActionPerformed
     private void RbtnPendingAppmentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RbtnPendingAppmentsActionPerformed
         rbtnTotalAppments.setSelected(false);
- 
+
         // getDoctorAppointments(id, true) = solo pendientes
         Response response = controllers.getAppointmentQueryController()
                 .getDoctorAppointments(String.valueOf(doctorId), true);
- 
+
         // Nombre exacto del JFrame: AppmentVisual
         DefaultTableModel model = (DefaultTableModel) AppmentVisual.getModel();
         model.setRowCount(0);
@@ -1140,22 +1135,22 @@ public class DoctorView extends javax.swing.JFrame {
     }//GEN-LAST:event_RbtnPendingAppmentsActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        String first    = fielFirstname.getText();    // fielFirstname (sin 'd')
-        String last     = fieldLastname.getText();
-        String spec     = cboxSpecialty.getItemAt(cboxSpecialty.getSelectedIndex());
-        String license  = fieldLicenseNumber.getText();
-        String office   = fieldAssignedOffice.getText();
+        String first = fielFirstname.getText();    // fielFirstname (sin 'd')
+        String last = fieldLastname.getText();
+        String spec = cboxSpecialty.getItemAt(cboxSpecialty.getSelectedIndex());
+        String license = fieldLicenseNumber.getText();
+        String office = fieldAssignedOffice.getText();
         String username = fieldUser.getText();
         String password = fieldPassword.getText();
-        String confirm  = fieldPasswordConfirm.getText();
- 
+        String confirm = fieldPasswordConfirm.getText();
+
         Response response = controllers.getDoctorController().updateDoctor(
                 String.valueOf(doctorId),
                 username, first, last,
                 password, confirm,
                 spec, license, office
         );
- 
+
         if (response.getStatus() == Status.OK) {
             showMessage("Profile updated successfully!", true);
         } else {
@@ -1164,12 +1159,12 @@ public class DoctorView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
-       this.setVisible(false);
+        this.setVisible(false);
         new LoginView(controllers).setVisible(true);
     }//GEN-LAST:event_btnLogoutActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-       this.setVisible(false);
+        this.setVisible(false);
         new AdminView(controllers).setVisible(true);
     }//GEN-LAST:event_btnBackActionPerformed
 
@@ -1181,10 +1176,10 @@ public class DoctorView extends javax.swing.JFrame {
                 showMessage("Please select a hospitalization.", false);
                 return;
             }
- 
+
             Response response = controllers.getHospitalizationManagementController()
                     .denyHospitalization(hospId);
- 
+
             if (response.getStatus() == Status.OK) {
                 showMessage("Hospitalization cancelled.", true);
                 loadHospitalizationComboBox();
@@ -1195,22 +1190,22 @@ public class DoctorView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnGenerateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerateActionPerformed
-        String patId        = cboxPatientID.getItemAt(cboxPatientID.getSelectedIndex());
-        String reason       = atxtReason.getText();
+        String patId = cboxPatientID.getItemAt(cboxPatientID.getSelectedIndex());
+        String reason = atxtReason.getText();
         String observations = AtxtObservationsHospital.getText();
-        String entryDate    = fieldEntry.getText();
- 
+        String entryDate = fieldEntry.getText();
+
         Response response = controllers.getHospitalizationManagementController()
                 .hospitalizeFromAppointment(
-                        null,                        // appointmentId (no aplica aquí)
+                        null, // appointmentId (no aplica aquí)
                         patId,
                         String.valueOf(doctorId),
                         entryDate,
                         reason,
-                        "IMC",                       // roomType por defecto
+                        "IMC", // roomType por defecto
                         observations
                 );
- 
+
         if (response.getStatus() == Status.OK || response.getStatus() == Status.CREATED) {
             showMessage("Hospitalization generated.", true);
             clearGenerateFields();
@@ -1220,54 +1215,55 @@ public class DoctorView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGenerateActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-         String patientId = cboxPatient.getItemAt(cboxPatient.getSelectedIndex());
+        String patientId = cboxPatient.getItemAt(cboxPatient.getSelectedIndex());
         if (patientId == null || patientId.equals("Select one")) {
             showMessage("Please select a patient.", false);
             return;
         }
- 
+
         Response response = controllers.getAppointmentQueryController()
                 .getPatientAppointments(patientId);
- 
+
         // Nombre exacto del JFrame: AppmentHistory
         DefaultTableModel model = (DefaultTableModel) AppmentHistory.getModel();
         model.setRowCount(0);
         fillAppointmentTable(model, response);
- 
-    } 
+
+    }
     // ── BOTÓN PRESCRIBE: limpiar tabla de medicamentos ────────────────
     //GEN-LAST:event_btnSearchActionPerformed
-private void btnPrescribeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrescribeActionPerformed
+
+    private void btnPrescribeActionPerformeds(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrescribeActionPerformed
         // Nombre exacto del JFrame: prescribeMedicationsTable
         DefaultTableModel model = (DefaultTableModel) prescribeMedicationsTable.getModel();
         model.setRowCount(0);
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void rbtnTotalAppmentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnTotalAppmentsActionPerformed
-       
+
         RbtnPendingAppments.setSelected(false);
- 
+
         // getDoctorAppointments(id, false) = todas
         Response response = controllers.getAppointmentQueryController()
                 .getDoctorAppointments(String.valueOf(doctorId), false);
- 
+
         DefaultTableModel model = (DefaultTableModel) AppmentVisual.getModel();
         model.setRowCount(0);
         fillAppointmentTable(model, response);
     }//GEN-LAST:event_rbtnTotalAppmentsActionPerformed
 
     private void btnAcceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAcceptActionPerformed
-       
+
         // Nombre exacto del JFrame: cboxAppmentID
         String appointmentId = cboxAppmentID.getItemAt(cboxAppmentID.getSelectedIndex());
         if (appointmentId == null || appointmentId.equals("Select one")) {
             showMessage("Please select an appointment.", false);
             return;
         }
- 
+
         Response response = controllers.getAppointmentManagementController()
                 .acceptAppointment(appointmentId);
- 
+
         if (response.getStatus() == Status.OK) {
             showMessage("Appointment accepted.", true);
             loadAppointmentComboBoxes();
@@ -1277,15 +1273,15 @@ private void btnPrescribeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     }//GEN-LAST:event_btnAcceptActionPerformed
 
     private void btnCompleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCompleteActionPerformed
-       String appointmentId = cboxAppmentComplete.getItemAt(cboxAppmentComplete.getSelectedIndex());
-        String diagnosis     = AtxtDiagnosis.getText();
-        String observations  = AtxtObservations.getText();
-        String treatment     = atxtTreatmennt.getText();   // atxtTreatmennt (doble n)
-        String followUp      = AtxtIndication.getText();
- 
+        String appointmentId = cboxAppmentComplete.getItemAt(cboxAppmentComplete.getSelectedIndex());
+        String diagnosis = AtxtDiagnosis.getText();
+        String observations = AtxtObservations.getText();
+        String treatment = atxtTreatmennt.getText();   // atxtTreatmennt (doble n)
+        String followUp = AtxtIndication.getText();
+
         Response response = controllers.getAppointmentManagementController()
                 .completeAppointment(appointmentId, diagnosis, observations, treatment, followUp);
- 
+
         if (response.getStatus() == Status.OK) {
             showMessage("Appointment completed.", true);
             clearCompleteFields();
@@ -1296,22 +1292,21 @@ private void btnPrescribeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     }//GEN-LAST:event_btnCompleteActionPerformed
 
     private void btnPrescribeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrescribeActionPerformed
-        DefaultTableModel model = (DefaultTableModel) prescribeMedicationsTable.getModel();
-        model.setRowCount(0);
+
     }//GEN-LAST:event_btnPrescribeActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         String appointmentId = cbappmentIDmedications.getItemAt(cbappmentIDmedications.getSelectedIndex());
-        String medName       = txtMedicationName.getText();   // txtMedicationName es JTextField
-        String dose          = fieldDose.getText();
-        String route         = fieldadminroute.getText();
-        String duration      = fieldTreatmentDuration.getText();
-        String instructions  = fieldAddInstructions.getText();
-        String frequency     = fieldFrecuency.getText();
- 
+        String medName = txtMedicationName.getText();   // txtMedicationName es JTextField
+        String dose = fieldDose.getText();
+        String route = fieldadminroute.getText();
+        String duration = fieldTreatmentDuration.getText();
+        String instructions = fieldAddInstructions.getText();
+        String frequency = fieldFrecuency.getText();
+
         Response response = controllers.getPrescriptionController()
-                .addPrescription(appointmentId, medName, dose, route, duration, instructions, frequency);
- 
+                .prescribeMedication(appointmentId, medName, dose, route, duration, instructions, frequency);
+
         if (response.getStatus() == Status.OK || response.getStatus() == Status.CREATED) {
             DefaultTableModel model = (DefaultTableModel) prescribeMedicationsTable.getModel();
             model.addRow(new Object[]{
@@ -1326,12 +1321,12 @@ private void btnPrescribeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 
     private void btnAcceptRescheduleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAcceptRescheduleActionPerformed
         String appointmentId = cboxAppment.getItemAt(cboxAppment.getSelectedIndex());
-        String newTime       = fieldNewtimeappment.getText();
-        String reason        = fieldReasonAppment.getText();
- 
+        String newTime = fieldNewtimeappment.getText();
+        String reason = fieldReasonAppment.getText();
+
         Response response = controllers.getAppointmentManagementController()
                 .rescheduleAppointment(appointmentId, newTime, reason);
- 
+
         if (response.getStatus() == Status.OK) {
             showMessage("Appointment rescheduled.", true);
             fieldNewtimeappment.setText("");
@@ -1340,10 +1335,10 @@ private void btnPrescribeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
             showMessage(response.getMessage(), false);
         }
     }//GEN-LAST:event_btnAcceptRescheduleActionPerformed
- private void loadDoctorData() {
+    private void loadDoctorData() {
         Response response = controllers.getAuthController()
                 .getUser(String.valueOf(doctorId));
- 
+
         if (response.getStatus() == Status.OK && response.getData() != null) {
             java.util.HashMap<String, Object> data = response.getData();
             // Nombres exactos del JFrame
@@ -1352,7 +1347,7 @@ private void btnPrescribeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
             fieldLicenseNumber.setText(safe(data.get("licenceNumber")));
             fieldAssignedOffice.setText(safe(data.get("assignedOffice")));
             fieldUser.setText(safe(data.get("username")));
- 
+
             String specialty = safe(data.get("specialty"));
             for (int i = 0; i < cboxSpecialty.getItemCount(); i++) {
                 String item = cboxSpecialty.getItemAt(i)
@@ -1364,37 +1359,44 @@ private void btnPrescribeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
             }
         }
     }
- private void loadPatientComboBoxes() {
-        // Nombres exactos del JFrame: cboxPatient, cboxPatientID
-        cboxPatient.removeAllItems();   cboxPatient.addItem("Select one");
-        cboxPatientID.removeAllItems(); cboxPatientID.addItem("Select one");
- 
+
+    private void loadPatientComboBoxes() {
+        cboxPatient.removeAllItems();
+        cboxPatient.addItem("Select one");
+        cboxPatientID.removeAllItems();
+        cboxPatientID.addItem("Select one");
+
         Response response = controllers.getPatientController().getAllPatients();
         if (response.getStatus() == Status.OK && response.getData() != null) {
             Object list = response.getData().get("patients");
             if (list instanceof java.util.ArrayList) {
                 for (Object obj : (java.util.ArrayList<?>) list) {
-                    if (obj instanceof User) {
-                        String pid = String.valueOf(((User) obj).getId());
-                        cboxPatient.addItem(pid);
-                        cboxPatientID.addItem(pid);
+                    if (obj instanceof java.util.HashMap) {
+                        java.util.HashMap<?, ?> p = (java.util.HashMap<?, ?>) obj;
+                        String entry = p.get("id") + " - " + p.get("firstname") + " " + p.get("lastname");
+                        cboxPatient.addItem(entry);
+                        cboxPatientID.addItem(entry);
                     }
                 }
             }
         }
     }
- 
+
     private void loadAppointmentComboBoxes() {
         // Nombres exactos del JFrame: cboxAppmentID, cboxAppmentComplete,
         //                             cbappmentIDmedications, cboxAppment
-        cboxAppmentID.removeAllItems();          cboxAppmentID.addItem("Select one");
-        cboxAppmentComplete.removeAllItems();    cboxAppmentComplete.addItem("Select one");
-        cbappmentIDmedications.removeAllItems(); cbappmentIDmedications.addItem("Select one");
-        cboxAppment.removeAllItems();            cboxAppment.addItem("Select one");
- 
+        cboxAppmentID.removeAllItems();
+        cboxAppmentID.addItem("Select one");
+        cboxAppmentComplete.removeAllItems();
+        cboxAppmentComplete.addItem("Select one");
+        cbappmentIDmedications.removeAllItems();
+        cbappmentIDmedications.addItem("Select one");
+        cboxAppment.removeAllItems();
+        cboxAppment.addItem("Select one");
+
         Response response = controllers.getDoctorController()
                 .getDoctorAppointmentIds(String.valueOf(doctorId));
- 
+
         if (response.getStatus() == Status.OK && response.getData() != null) {
             Object list = response.getData().get("appointmentIds");
             if (list instanceof java.util.ArrayList) {
@@ -1408,15 +1410,15 @@ private void btnPrescribeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
             }
         }
     }
- 
+
     private void loadHospitalizationComboBox() {
         // Nombre exacto del JFrame: xboxRequest
         xboxRequest.removeAllItems();
         xboxRequest.addItem("Select one");
- 
+
         Response response = controllers.getHospitalizationQueryController()
                 .getDoctorHospitalizations(String.valueOf(doctorId));
- 
+
         if (response.getStatus() == Status.OK && response.getData() != null) {
             Object list = response.getData().get("hospitalizationIds");
             if (list instanceof java.util.ArrayList) {
@@ -1426,9 +1428,8 @@ private void btnPrescribeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
             }
         }
     }
- 
+
     // ── HELPERS ───────────────────────────────────────────────────────
- 
     private void fillAppointmentTable(DefaultTableModel model, Response response) {
         if (response.getStatus() == Status.OK && response.getData() != null) {
             Object list = response.getData().get("appointments");
@@ -1441,29 +1442,29 @@ private void btnPrescribeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
             }
         }
     }
- 
+
     private void showMessage(String message, boolean success) {
         int type = success ? JOptionPane.INFORMATION_MESSAGE : JOptionPane.ERROR_MESSAGE;
         JOptionPane.showMessageDialog(this, message, success ? "Success" : "Error", type);
     }
- 
+
     private String safe(Object obj) {
         return obj != null ? obj.toString() : "";
     }
- 
+
     private void clearCompleteFields() {
         AtxtDiagnosis.setText("");
         AtxtObservations.setText("");
         atxtTreatmennt.setText("");
         AtxtIndication.setText("");
     }
- 
+
     private void clearGenerateFields() {
         atxtReason.setText("");
         AtxtObservationsHospital.setText("");
         fieldEntry.setText("");
     }
- 
+
     private void clearPrescriptionFields() {
         txtMedicationName.setText("");
         fieldDose.setText("");
@@ -1472,7 +1473,6 @@ private void btnPrescribeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
         fieldAddInstructions.setText("");
         fieldFrecuency.setText("");
     }
-
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
