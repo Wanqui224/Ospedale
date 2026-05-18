@@ -1636,9 +1636,6 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="Prescribe"/>
                   </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPrescribeActionPerformed"/>
-                  </Events>
                 </Component>
                 <Component class="javax.swing.JComboBox" name="cbappmentIDmedications">
                   <Properties>

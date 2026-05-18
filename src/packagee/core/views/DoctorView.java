@@ -988,11 +988,6 @@ public class DoctorView extends javax.swing.JFrame {
 
         btnPrescribe.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         btnPrescribe.setText("Prescribe");
-        btnPrescribe.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPrescribeActionPerformed(evt);
-            }
-        });
 
         cbappmentIDmedications.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         cbappmentIDmedications.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select one" }));
@@ -1290,10 +1285,6 @@ public class DoctorView extends javax.swing.JFrame {
             showMessage(response.getMessage(), false);
         }
     }//GEN-LAST:event_btnCompleteActionPerformed
-
-    private void btnPrescribeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrescribeActionPerformed
-
-    }//GEN-LAST:event_btnPrescribeActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         String appointmentId = cbappmentIDmedications.getItemAt(cbappmentIDmedications.getSelectedIndex());

@@ -442,7 +442,7 @@ public class AdminView extends javax.swing.JFrame {
         }
 
         try {
-            long doctorId = Long.parseLong(selected);
+            long doctorId = Long.parseLong(selected.split(" - ")[0].trim());
             this.setVisible(false);
             // isFromAdmin = true → btnBack activo en DoctorView
             new DoctorView(controllers, doctorId, true).setVisible(true);
@@ -464,7 +464,7 @@ public class AdminView extends javax.swing.JFrame {
         }
 
         try {
-            long patientId = Long.parseLong(selected);
+            long patientId = Long.parseLong(selected.split(" - ")[0].trim());
             this.setVisible(false);
             // isFromAdmin = true → btnBack activo en PatientView
             new PatientView(controllers, patientId, true).setVisible(true);

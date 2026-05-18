@@ -422,7 +422,8 @@ public class LoginView extends javax.swing.JFrame {
         long userId = ((Number) response.getData().get("id")).longValue();
 
         this.setVisible(false);
-
+        FieldUsername.setText("");
+FieldPassword.setText("");
         switch (role) {
             case "ADMIN":
                 new AdminView(controllers).setVisible(true);

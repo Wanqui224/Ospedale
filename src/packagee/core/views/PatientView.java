@@ -45,6 +45,7 @@ public class PatientView extends javax.swing.JFrame {
         loadAttendingDoctorComboBox();
         loadRoomTypeComboBox();
         loadAppointmentIdComboBox();
+        btnRefreshActionPerformed(null);
     }
 
     /**
