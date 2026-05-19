@@ -3,14 +3,18 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Wanki/Desktop/3%20Semestre/Ospedale/src/packagee/core/views/NewJFrame.java</file>
-            <file>file:/C:/Users/Wanki/Desktop/3%20Semestre/Ospedale/src/packagee/core/models/Administrator.java</file>
-            <file>file:/C:/Users/Wanki/Desktop/3%20Semestre/Ospedale/src/packagee/core/models/Appointment.java</file>
-            <file>file:/C:/Users/Wanki/Desktop/3%20Semestre/Ospedale/src/packagee/core/models/Hospitalization.java</file>
-            <file>file:/C:/Users/Wanki/Desktop/3%20Semestre/Ospedale/src/packagee/core/controllers/HospitalizationQueryController.java</file>
-            <file>file:/C:/Users/Wanki/Desktop/3%20Semestre/Ospedale/src/packagee/core/controllers/IPatientController.java</file>
-            <file>file:/C:/Users/Wanki/Desktop/3%20Semestre/Ospedale/src/packagee/core/controllers/IHospitalizationManagementController.java</file>
-            <file>file:/C:/Users/Wanki/Desktop/3%20Semestre/Ospedale/src/packagee/core/controllers/HospitalizationRequestController.java</file>
+            <file>file:/C:/Users/mafer/Documents/Ospedale/src/packagee/Main.java</file>
+            <file>file:/C:/Users/mafer/Documents/Ospedale/src/packagee/core/views/AdminView.java</file>
+            <file>file:/C:/Users/mafer/Documents/Ospedale/src/packagee/core/views/DoctorView.java</file>
+            <file>file:/C:/Users/mafer/Documents/Ospedale/src/packagee/core/views/LoginView.java</file>
+            <file>file:/C:/Users/mafer/Documents/Ospedale/src/packagee/core/views/PatientView.java</file>
+            <file>file:/C:/Users/mafer/Documents/Ospedale/src/packagee/core/controllers/PatientController.java</file>
+            <file>file:/C:/Users/mafer/Documents/Ospedale/src/packagee/core/controllers/DoctorController.java</file>
+            <file>file:/C:/Users/mafer/Documents/Ospedale/src/packagee/core/controllers/utils/AppointmentRequestController.java</file>
+            <file>file:/C:/Users/mafer/Documents/Ospedale/src/packagee/core/controllers/IAppointmentRequestController.java</file>
+            <file>file:/C:/Users/mafer/Documents/Ospedale/src/packagee/core/controllers/IHospitalizationRequestController.java</file>
+            <file>file:/C:/Users/mafer/Documents/Ospedale/src/packagee/core/controllers/utils/PrescriptionController.java</file>
+            <file>file:/C:/Users/mafer/Documents/Ospedale/src/packagee/core/controllers/IPrescriptionController.java</file>
         </group>
     </open-files>
 </project-private>

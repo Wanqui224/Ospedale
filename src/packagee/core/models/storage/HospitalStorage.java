@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package packagee.core.models.storage;
 
 import java.util.ArrayList;
@@ -9,17 +5,14 @@ import packagee.core.models.Appointment;
 import packagee.core.models.Hospitalization;
 import packagee.core.models.User;
 
-/**
- *
- * @author Wanki
- */
-public class HospitalStorage implements IHospitalStorage {
+public class HospitalStorage implements IObservableStorage {
 
     private static HospitalStorage instance;
 
     private ArrayList<User> users;
     private ArrayList<Appointment> appointments;
     private ArrayList<Hospitalization> hospitalizations;
+    private final ArrayList<IStorageObserver> observers = new ArrayList<>();
 
     private HospitalStorage() {
         this.appointments = new ArrayList<>();
@@ -32,6 +25,23 @@ public class HospitalStorage implements IHospitalStorage {
             instance = new HospitalStorage();
         }
         return instance;
+    }
+
+    @Override
+    public void addObserver(IStorageObserver observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(IStorageObserver observer) {
+        observers.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers(String eventType) {
+        for (IStorageObserver observer : observers) {
+            observer.onStorageChanged(eventType);
+        }
     }
 
     @Override
@@ -97,16 +107,19 @@ public class HospitalStorage implements IHospitalStorage {
             }
         }
         users.add(user);
+        notifyObservers("USER_CHANGED");
         return true;
     }
 
     @Override
     public void addAppointment(Appointment a) {
         appointments.add(a);
+        notifyObservers("APPOINTMENT_CHANGED");
     }
 
     @Override
     public void addHospitalization(Hospitalization h) {
         hospitalizations.add(h);
+        notifyObservers("HOSPITALIZATION_CHANGED");
     }
 }

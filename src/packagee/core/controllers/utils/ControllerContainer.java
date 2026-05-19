@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package packagee.core.controllers.utils;
 
 import packagee.core.controllers.AuthController;
@@ -14,11 +10,8 @@ import packagee.core.controllers.IHospitalizationQueryController;
 import packagee.core.controllers.IHospitalizationRequestController;
 import packagee.core.controllers.IPatientController;
 import packagee.core.controllers.IPrescriptionController;
+import packagee.core.models.storage.IObservableStorage;
 
-/**
- *
- * @author Wanki
- */
 public class ControllerContainer {
 
     private final AuthController authController;
@@ -31,6 +24,7 @@ public class ControllerContainer {
     private final IHospitalizationRequestController hospitalizationRequestController;
     private final IHospitalizationManagementController hospitalizationManagementController;
     private final IHospitalizationQueryController hospitalizationQueryController;
+    private final IObservableStorage storage;
 
     public ControllerContainer(
             AuthController authController,
@@ -42,7 +36,8 @@ public class ControllerContainer {
             IPrescriptionController prescriptionController,
             IHospitalizationRequestController hospitalizationRequestController,
             IHospitalizationManagementController hospitalizationManagementController,
-            IHospitalizationQueryController hospitalizationQueryController
+            IHospitalizationQueryController hospitalizationQueryController,
+            IObservableStorage storage
     ) {
         this.authController = authController;
         this.patientController = patientController;
@@ -54,45 +49,18 @@ public class ControllerContainer {
         this.hospitalizationRequestController = hospitalizationRequestController;
         this.hospitalizationManagementController = hospitalizationManagementController;
         this.hospitalizationQueryController = hospitalizationQueryController;
+        this.storage = storage;
     }
 
-    public AuthController getAuthController() {
-        return authController;
-    }
-
-    public IPatientController getPatientController() {
-        return patientController;
-    }
-
-    public IDoctorController getDoctorController() {
-        return doctorController;
-    }
-
-    public IAppointmentRequestController getAppointmentRequestController() {
-        return appointmentRequestController;
-    }
-
-    public IAppointmentManagementController getAppointmentManagementController() {
-        return appointmentManagementController;
-    }
-
-    public IAppointmentQueryController getAppointmentQueryController() {
-        return appointmentQueryController;
-    }
-
-    public IPrescriptionController getPrescriptionController() {
-        return prescriptionController;
-    }
-
-    public IHospitalizationRequestController getHospitalizationRequestController() {
-        return hospitalizationRequestController;
-    }
-
-    public IHospitalizationManagementController getHospitalizationManagementController() {
-        return hospitalizationManagementController;
-    }
-
-    public IHospitalizationQueryController getHospitalizationQueryController() {
-        return hospitalizationQueryController;
-    }
+    public AuthController getAuthController() { return authController; }
+    public IPatientController getPatientController() { return patientController; }
+    public IDoctorController getDoctorController() { return doctorController; }
+    public IAppointmentRequestController getAppointmentRequestController() { return appointmentRequestController; }
+    public IAppointmentManagementController getAppointmentManagementController() { return appointmentManagementController; }
+    public IAppointmentQueryController getAppointmentQueryController() { return appointmentQueryController; }
+    public IPrescriptionController getPrescriptionController() { return prescriptionController; }
+    public IHospitalizationRequestController getHospitalizationRequestController() { return hospitalizationRequestController; }
+    public IHospitalizationManagementController getHospitalizationManagementController() { return hospitalizationManagementController; }
+    public IHospitalizationQueryController getHospitalizationQueryController() { return hospitalizationQueryController; }
+    public IObservableStorage getStorage() { return storage; }
 }
