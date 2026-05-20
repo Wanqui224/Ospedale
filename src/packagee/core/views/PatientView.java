@@ -35,13 +35,13 @@ public class PatientView extends javax.swing.JFrame implements packagee.core.mod
         this.setBackground(new Color(0, 0, 0, 0));
         this.setLocationRelativeTo(null);
 
-        // Día 4-5: btnBack visible SOLO para admin
+        
         btnBack.setVisible(isFromAdmin);
 
-        // Día 4-5: cargar datos del paciente logueado en los campos
+        
         loadPatientData();
 
-        // Día 4-5: cargar ComboBoxes automáticamente
+        
         loadAttendingDoctorComboBox();
         loadRoomTypeComboBox();
         loadAppointmentIdComboBox();
@@ -815,7 +815,7 @@ public class PatientView extends javax.swing.JFrame implements packagee.core.mod
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         String first = fieldFirstname.getText();
         String last = labelLastname.getText();   // labelLastname es un JTextField
-        String gender = CboxGender.getSelectedIndex() == 1 ? "true" : "false";
+        String gender = CboxGender.getSelectedIndex() == 1 ? "Female" : "Male";
         String birth = fieldBirthdate.getText();
         String address = fieldAddress.getText();
         String phone = fieldPhone.getText();

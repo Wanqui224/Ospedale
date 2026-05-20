@@ -32,6 +32,7 @@ public class DoctorController implements IDoctorController {
             String username, String firstname, String lastname,
             String password, String confirmPassword,
             String specialty, String licenceNumber, String assignedOffice
+            
     ) {
         if (!UserValidator.isValidUsername(username)) {
             return new Response("Username is required", Status.BAD_REQUEST);
@@ -58,11 +59,13 @@ public class DoctorController implements IDoctorController {
             return new Response("Office must follow the format O-XXX", Status.BAD_REQUEST);
         }
         return null;
+        
+        
     }
 
     private boolean isValidSpecialty(String specialty) {
         try {
-            Specialty.valueOf(specialty.trim().toUpperCase());
+            Specialty.valueOf(UserValidator.normalizeSpecialty(specialty));
             return true;
         } catch (IllegalArgumentException e) {
             return false;
@@ -99,7 +102,7 @@ public class DoctorController implements IDoctorController {
 
             Doctor doctor = new Doctor(
                     idLong, username.trim(), firstname.trim(), lastname.trim(),
-                    password, Specialty.valueOf(specialty.trim().toUpperCase()),
+                    password, Specialty.valueOf(UserValidator.normalizeSpecialty(specialty)),
                     licenceNumber.trim(), assignedOffice.trim()
             );
 
@@ -150,7 +153,7 @@ public class DoctorController implements IDoctorController {
             doctor.setFirstname(firstname.trim());
             doctor.setLastname(lastname.trim());
             doctor.setPassword(password);
-            doctor.setSpecialty(Specialty.valueOf(specialty.trim().toUpperCase()));
+            doctor.setSpecialty(Specialty.valueOf(UserValidator.normalizeSpecialty(specialty)));
             doctor.setLicenceNumber(licenceNumber.trim());
             doctor.setAssignedOffice(assignedOffice.trim());
 
