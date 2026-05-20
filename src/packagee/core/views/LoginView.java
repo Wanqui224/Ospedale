@@ -449,7 +449,7 @@ FieldPassword.setText("");
         String confirm = fieldPswordConfirm.getText();
         String email = fieldEmail.getText();
         String birth = fieldBirthdate.getText();
-        String gender = CboxGender.getSelectedIndex() == 1 ? "true" : "false";
+        String gender = CboxGender.getSelectedIndex() == 1 ? "Female" : "Male";
         String phone = fieldPhone.getText();
         String address = fieldAddress.getText();
 

@@ -16,6 +16,15 @@ public interface IHospitalizationManagementController {
 
     Response denyHospitalization(String hospitalizationId);
 
+    Response directlyHospitalizePatient(
+            String patientId,
+            String doctorId,
+            String date,
+            String reason,
+            String roomType,
+            String observations
+    );
+
     Response hospitalizeFromAppointment(
             String appointmentId,
             String patientId,
@@ -25,4 +34,5 @@ public interface IHospitalizationManagementController {
             String roomType,
             String observations
     );
+
 }

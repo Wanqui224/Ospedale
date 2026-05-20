@@ -63,4 +63,11 @@ public class UserValidator {
         int minutes = Integer.parseInt(time.substring(3));
         return minutes == 0 || minutes == 15 || minutes == 30 || minutes == 45;
     }
+
+    public static String normalizeSpecialty(String specialty) {
+        return specialty.trim()
+                .toUpperCase()
+                .replaceAll(" & ", "_")
+                .replaceAll(" ", "_");
+    }
 }
