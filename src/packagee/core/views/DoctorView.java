@@ -34,13 +34,10 @@ public class DoctorView extends javax.swing.JFrame implements packagee.core.mode
         this.setBackground(new Color(0, 0, 0, 0));
         this.setLocationRelativeTo(null);
 
-        // Día 4-5: btnBack visible SOLO para admin
         btnBack.setVisible(isFromAdmin);
 
-        // Día 4-5: cargar datos del doctor logueado en los campos
         loadDoctorData();
 
-        // Día 4-5: cargar ComboBoxes automáticamente
         loadPatientComboBoxes();
         loadAppointmentComboBoxes();
         loadHospitalizationComboBox();
@@ -1217,13 +1214,12 @@ public class DoctorView extends javax.swing.JFrame implements packagee.core.mode
         String entryDate = fieldEntry.getText();
 
         Response response = controllers.getHospitalizationManagementController()
-                .hospitalizeFromAppointment(
-                        null, // appointmentId (no aplica aquí)
+                .directlyHospitalizePatient(
                         patId,
                         String.valueOf(doctorId),
                         entryDate,
                         reason,
-                        "IMC", // roomType por defecto
+                        "IMC",
                         observations
                 );
 
