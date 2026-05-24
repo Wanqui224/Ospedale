@@ -2,11 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package packagee.core.controllers.utils;
+package packagee.core.controllers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import packagee.core.controllers.IAppointmentQueryController;
+import packagee.core.controllers.utils.AppointmentSerializer;
+import packagee.core.controllers.utils.Response;
+import packagee.core.controllers.utils.Status;
+import packagee.core.controllers.utils.UserValidator;
 import packagee.core.models.Appointment;
 import packagee.core.models.Doctor;
 import packagee.core.models.Patient;
