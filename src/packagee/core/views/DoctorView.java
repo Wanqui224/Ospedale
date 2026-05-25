@@ -1182,23 +1182,28 @@ public class DoctorView extends javax.swing.JFrame implements packagee.core.mode
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        String hospId = xboxRequest.getItemAt(xboxRequest.getSelectedIndex());
+        if (hospId == null || hospId.equals("Select one")) {
+            showMessage("Please select a hospitalization.", false);
+            return;
+        }
+
+        Response response;
         if (rbtnRequest.isSelected()) {
-            // Nombre exacto del JFrame: xboxRequest
-            String hospId = xboxRequest.getItemAt(xboxRequest.getSelectedIndex());
-            if (hospId == null || hospId.equals("Select one")) {
-                showMessage("Please select a hospitalization.", false);
-                return;
-            }
-
-            Response response = controllers.getHospitalizationManagementController()
+            // rbtnRequest = Aprobar
+            response = controllers.getHospitalizationManagementController()
+                    .approveHospitalization(hospId);
+        } else {
+            // rbtnPatientID = Denegar
+            response = controllers.getHospitalizationManagementController()
                     .denyHospitalization(hospId);
+        }
 
-            if (response.getStatus() == Status.OK) {
-                showMessage("Hospitalization cancelled.", true);
-                loadHospitalizationComboBox();
-            } else {
-                showMessage(response.getMessage(), false);
-            }
+        if (response.getStatus() == Status.OK) {
+            showMessage(response.getMessage(), true);
+            loadHospitalizationComboBox();
+        } else {
+            showMessage(response.getMessage(), false);
         }
     }//GEN-LAST:event_btnCancelActionPerformed
 

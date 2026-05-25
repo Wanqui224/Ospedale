@@ -1,13 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package packagee.core.controllers.utils;
 
-/**
- *
- * @author Wanki
- */
+import java.time.LocalDate;
+
 public class UserValidator {
 
     public static boolean isValidUsername(String username) {
@@ -41,7 +35,15 @@ public class UserValidator {
     }
 
     public static boolean isValidBirthdate(String birthdate) {
-        return birthdate != null && birthdate.matches("^\\d{4}-\\d{2}-\\d{2}$");
+        if (birthdate == null || !birthdate.matches("^\\d{4}-\\d{2}-\\d{2}$")) {
+            return false;
+        }
+        try {
+            LocalDate.parse(birthdate);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public static boolean isValidLicenceNumber(String licence) {
@@ -53,7 +55,15 @@ public class UserValidator {
     }
 
     public static boolean isValidDate(String date) {
-        return date != null && date.matches("^\\d{4}-\\d{2}-\\d{2}$");
+        if (date == null || !date.matches("^\\d{4}-\\d{2}-\\d{2}$")) {
+            return false;
+        }
+        try {
+            LocalDate.parse(date);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public static boolean isValidTime(String time) {

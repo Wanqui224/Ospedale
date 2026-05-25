@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package packagee.core.controllers;
 
 import java.time.LocalDateTime;
@@ -12,17 +8,13 @@ import packagee.core.controllers.utils.Response;
 import packagee.core.controllers.utils.Status;
 import packagee.core.models.Appointment;
 import packagee.core.models.enums.AppointmentStatus;
-import packagee.core.models.storage.IHospitalStorage;
+import packagee.core.models.storage.IObservableStorage;
 
-/**
- *
- * @author Wanki
- */
 public class AppointmentManagementController implements IAppointmentManagementController {
 
-    private final IHospitalStorage storage;
+    private final IObservableStorage storage;
 
-    public AppointmentManagementController(IHospitalStorage storage) {
+    public AppointmentManagementController(IObservableStorage storage) {
         this.storage = storage;
     }
 
@@ -38,6 +30,7 @@ public class AppointmentManagementController implements IAppointmentManagementCo
             }
 
             appointment.setStatus(AppointmentStatus.PENDING);
+            storage.notifyObservers("APPOINTMENT_CHANGED");
             return new Response("Appointment accepted successfully", Status.OK,
                     AppointmentSerializer.serialize(appointment));
 
@@ -66,6 +59,7 @@ public class AppointmentManagementController implements IAppointmentManagementCo
             appointment.setRecommendedTreatment(recommendedTreatment.trim());
             appointment.setFollowUp(followUp.trim());
 
+            storage.notifyObservers("APPOINTMENT_CHANGED");
             return new Response("Appointment completed successfully", Status.OK,
                     AppointmentSerializer.serialize(appointment));
 
@@ -86,6 +80,7 @@ public class AppointmentManagementController implements IAppointmentManagementCo
             }
 
             appointment.setStatus(AppointmentStatus.CANCELED);
+            storage.notifyObservers("APPOINTMENT_CHANGED");
             return new Response("Appointment canceled successfully", Status.OK,
                     AppointmentSerializer.serialize(appointment));
 
@@ -120,6 +115,7 @@ public class AppointmentManagementController implements IAppointmentManagementCo
             appointment.setDatetime(newDatetime);
             appointment.setReason(appointment.getReason() + " | Rescheduled: " + reason.trim());
 
+            storage.notifyObservers("APPOINTMENT_CHANGED");
             return new Response("Appointment rescheduled successfully", Status.OK,
                     AppointmentSerializer.serialize(appointment));
 
