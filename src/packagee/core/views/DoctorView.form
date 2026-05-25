@@ -34,7 +34,7 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="packagee.core.models.PanelRound" name="historyAppmentPanel">
+    <Container class="packagee.core.views.PanelRound" name="historyAppmentPanel">
       <Properties>
         <Property name="radius" type="int" value="50"/>
       </Properties>
@@ -62,7 +62,7 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Container class="packagee.core.models.PanelRound" name="panelUp">
+        <Container class="packagee.core.views.PanelRound" name="panelUp">
           <Properties>
             <Property name="radius" type="int" value="50"/>
           </Properties>

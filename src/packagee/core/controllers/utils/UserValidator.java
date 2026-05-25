@@ -70,6 +70,10 @@ public class UserValidator {
         if (time == null || !time.matches("^\\d{2}:\\d{2}$")) {
             return false;
         }
+        int hours = Integer.parseInt(time.substring(0, 2));   
+        if (hours > 23) {
+            return false;
+        }
         int minutes = Integer.parseInt(time.substring(3));
         return minutes == 0 || minutes == 15 || minutes == 30 || minutes == 45;
     }

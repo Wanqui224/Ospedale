@@ -35,11 +35,11 @@ public class LoginView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        rightScroll = new packagee.core.models.PanelRound();
-        upScroll = new packagee.core.models.PanelRound();
+        rightScroll = new packagee.core.views.PanelRound();
+        upScroll = new packagee.core.views.PanelRound();
         btnClose = new javax.swing.JButton();
         tbbLogin = new javax.swing.JTabbedPane();
-        banckgroundlogin = new packagee.core.models.PanelRound();
+        banckgroundlogin = new packagee.core.views.PanelRound();
         txtLogin = new javax.swing.JLabel();
         FieldUsername = new javax.swing.JTextField();
         txtUsername = new javax.swing.JLabel();
@@ -498,7 +498,7 @@ FieldPassword.setText("");
     private javax.swing.JTextField FieldPassword;
     private javax.swing.JTextField FieldUsername;
     private javax.swing.JPanel backgorund;
-    private packagee.core.models.PanelRound banckgroundlogin;
+    private packagee.core.views.PanelRound banckgroundlogin;
     private javax.swing.JButton btnClose;
     private javax.swing.JButton btnEnter;
     private javax.swing.JButton btnSave;
@@ -512,7 +512,7 @@ FieldPassword.setText("");
     private javax.swing.JTextField fieldPhone;
     private javax.swing.JTextField fieldPswordConfirm;
     private javax.swing.JTextField fieldUser;
-    private packagee.core.models.PanelRound rightScroll;
+    private packagee.core.views.PanelRound rightScroll;
     private javax.swing.JTabbedPane tbbLogin;
     private javax.swing.JLabel txtAdrdress;
     private javax.swing.JLabel txtBirthdate;
@@ -528,6 +528,6 @@ FieldPassword.setText("");
     private javax.swing.JLabel txtPswordConfirm;
     private javax.swing.JLabel txtUser;
     private javax.swing.JLabel txtUsername;
-    private packagee.core.models.PanelRound upScroll;
+    private packagee.core.views.PanelRound upScroll;
     // End of variables declaration//GEN-END:variables
 }

@@ -46,11 +46,11 @@ public class AdminView extends javax.swing.JFrame implements packagee.core.model
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        Background = new packagee.core.models.PanelRound();
-        panelup = new packagee.core.models.PanelRound();
+        Background = new packagee.core.views.PanelRound();
+        panelup = new packagee.core.views.PanelRound();
         btnClose = new javax.swing.JButton();
         txtAdminView = new javax.swing.JLabel();
-        bgPanel = new packagee.core.models.PanelRound();
+        bgPanel = new packagee.core.views.PanelRound();
         btnDoctorView = new javax.swing.JButton();
         btnPatientView = new javax.swing.JButton();
         txtFirstname = new javax.swing.JLabel();
@@ -535,11 +535,11 @@ public class AdminView extends javax.swing.JFrame implements packagee.core.model
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private packagee.core.models.PanelRound Background;
+    private packagee.core.views.PanelRound Background;
     private javax.swing.JComboBox<String> CboxDoctor;
     private javax.swing.JSeparator SeparatorLeft;
     private javax.swing.JSeparator SeparatorRight;
-    private packagee.core.models.PanelRound bgPanel;
+    private packagee.core.views.PanelRound bgPanel;
     private javax.swing.JButton btnClose;
     private javax.swing.JButton btnDoctorView;
     private javax.swing.JButton btnLogout;
@@ -555,7 +555,7 @@ public class AdminView extends javax.swing.JFrame implements packagee.core.model
     private javax.swing.JTextField fieldPassword;
     private javax.swing.JTextField fieldPasswordConfirmation;
     private javax.swing.JTextField fieldUser;
-    private packagee.core.models.PanelRound panelup;
+    private packagee.core.views.PanelRound panelup;
     private javax.swing.JLabel txtAdminView;
     private javax.swing.JLabel txtAssignedOffice;
     private javax.swing.JLabel txtDoctor;

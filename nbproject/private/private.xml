@@ -7,6 +7,18 @@
             <file>file:/C:/Users/Wanki/Desktop/3%20Semestre/Ospedale/src/packagee/core/controllers/HospitalizationRequestController.java</file>
             <file>file:/C:/Users/Wanki/Desktop/3%20Semestre/Ospedale/src/packagee/core/controllers/IPrescriptionController.java</file>
             <file>file:/C:/Users/Wanki/Desktop/3%20Semestre/Ospedale/src/packagee/core/views/DoctorView.java</file>
+            <file>file:/C:/Users/Wanki/Desktop/3%20Semestre/Ospedale/src/packagee/core/models/storage/JsonLoader.java</file>
+            <file>file:/C:/Users/Wanki/Desktop/3%20Semestre/Ospedale/src/packagee/core/controllers/PrescriptionController.java</file>
+            <file>file:/C:/Users/Wanki/Desktop/3%20Semestre/Ospedale/src/packagee/core/controllers/utils/AppointmentSerializer.java</file>
+            <file>file:/C:/Users/Wanki/Desktop/3%20Semestre/Ospedale/src/packagee/core/controllers/utils/ControllerContainer.java</file>
+            <file>file:/C:/Users/Wanki/Desktop/3%20Semestre/Ospedale/src/packagee/core/models/storage/HospitalStorage.java</file>
+            <file>file:/C:/Users/Wanki/Desktop/3%20Semestre/Ospedale/src/packagee/core/models/storage/IHospitalStorage.java</file>
+            <file>file:/C:/Users/Wanki/Desktop/3%20Semestre/Ospedale/src/packagee/core/models/storage/IObservableStorage.java</file>
+            <file>file:/C:/Users/Wanki/Desktop/3%20Semestre/Ospedale/src/packagee/core/models/storage/IStorageObserver.java</file>
+            <file>file:/C:/Users/Wanki/Desktop/3%20Semestre/Ospedale/src/packagee/core/models/enums/AppointmentStatus.java</file>
+            <file>file:/C:/Users/Wanki/Desktop/3%20Semestre/Ospedale/src/packagee/core/models/enums/HospitalizationStatus.java</file>
+            <file>file:/C:/Users/Wanki/Desktop/3%20Semestre/Ospedale/src/packagee/core/models/enums/RoomType.java</file>
+            <file>file:/C:/Users/Wanki/Desktop/3%20Semestre/Ospedale/src/packagee/core/models/enums/Specialty.java</file>
         </group>
     </open-files>
 </project-private>
