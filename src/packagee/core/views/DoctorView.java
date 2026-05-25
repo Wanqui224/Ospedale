@@ -71,8 +71,8 @@ public class DoctorView extends javax.swing.JFrame implements packagee.core.mode
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        historyAppmentPanel = new packagee.core.models.PanelRound();
-        panelUp = new packagee.core.models.PanelRound();
+        historyAppmentPanel = new packagee.core.views.PanelRound();
+        panelUp = new packagee.core.views.PanelRound();
         btnClose = new javax.swing.JButton();
         txtDoctorView = new javax.swing.JLabel();
         btnBack = new javax.swing.JButton();
@@ -1567,8 +1567,8 @@ public class DoctorView extends javax.swing.JFrame implements packagee.core.mode
     private javax.swing.JTextField fieldTreatmentDuration;
     private javax.swing.JTextField fieldUser;
     private javax.swing.JTextField fieldadminroute;
-    private packagee.core.models.PanelRound historyAppmentPanel;
-    private packagee.core.models.PanelRound panelUp;
+    private packagee.core.views.PanelRound historyAppmentPanel;
+    private packagee.core.views.PanelRound panelUp;
     private javax.swing.JTable prescribeMedicationsTable;
     private javax.swing.JRadioButton rbtnPatientID;
     private javax.swing.JRadioButton rbtnRequest;

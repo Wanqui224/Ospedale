@@ -66,8 +66,8 @@ public class PatientView extends javax.swing.JFrame implements packagee.core.mod
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        BackgroundPatienview = new packagee.core.models.PanelRound();
-        panelUp = new packagee.core.models.PanelRound();
+        BackgroundPatienview = new packagee.core.views.PanelRound();
+        panelUp = new packagee.core.views.PanelRound();
         btnClose = new javax.swing.JButton();
         txtPatientview = new javax.swing.JLabel();
         btnBack = new javax.swing.JButton();
@@ -1048,7 +1048,7 @@ public class PatientView extends javax.swing.JFrame implements packagee.core.mod
     private javax.swing.JTextArea AtxtCancelObservations;
     private javax.swing.JTextArea AtxtHospitalreason;
     private javax.swing.JTextArea AtxtObservations;
-    private packagee.core.models.PanelRound BackgroundPatienview;
+    private packagee.core.views.PanelRound BackgroundPatienview;
     private javax.swing.JComboBox<String> CboxGender;
     private javax.swing.JComboBox<String> CboxSpecialty;
     private javax.swing.JScrollPane ScrollAppmentHistory;
@@ -1086,7 +1086,7 @@ public class PatientView extends javax.swing.JFrame implements packagee.core.mod
     private javax.swing.JTextField fieldPhone;
     private javax.swing.JTextField fieldUser;
     private javax.swing.JTextField labelLastname;
-    private packagee.core.models.PanelRound panelUp;
+    private packagee.core.views.PanelRound panelUp;
     private javax.swing.JRadioButton rbtnDoctor;
     private javax.swing.JRadioButton rbtnSpecialty;
     private javax.swing.JTabbedPane tbbdPatientInfo;

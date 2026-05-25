@@ -34,7 +34,7 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="packagee.core.models.PanelRound" name="Background">
+    <Container class="packagee.core.views.PanelRound" name="Background">
       <Properties>
         <Property name="radius" type="int" value="50"/>
       </Properties>
@@ -57,7 +57,7 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Container class="packagee.core.models.PanelRound" name="panelup">
+        <Container class="packagee.core.views.PanelRound" name="panelup">
           <Properties>
             <Property name="radius" type="int" value="50"/>
           </Properties>
@@ -116,7 +116,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Container class="packagee.core.models.PanelRound" name="bgPanel">
+        <Container class="packagee.core.views.PanelRound" name="bgPanel">
 
           <Layout>
             <DimensionLayout dim="0">

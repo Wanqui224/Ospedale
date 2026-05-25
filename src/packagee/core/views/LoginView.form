@@ -34,7 +34,7 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="packagee.core.models.PanelRound" name="rightScroll">
+    <Container class="packagee.core.views.PanelRound" name="rightScroll">
       <Properties>
         <Property name="radius" type="int" value="50"/>
       </Properties>
@@ -61,7 +61,7 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Container class="packagee.core.models.PanelRound" name="upScroll">
+        <Container class="packagee.core.views.PanelRound" name="upScroll">
           <Properties>
             <Property name="radius" type="int" value="50"/>
           </Properties>
@@ -111,7 +111,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
           <SubComponents>
-            <Container class="packagee.core.models.PanelRound" name="banckgroundlogin">
+            <Container class="packagee.core.views.PanelRound" name="banckgroundlogin">
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
                   <JTabbedPaneConstraints tabName="Login">
